@@ -9,7 +9,7 @@ const auth = require('../widdlewares/auth');
 
 // Краш-тест сервера
 // ATTENTION: Не забудьте удалить этот код после успешного прохождения ревью.
-app.get('/crash-test', () => {
+router.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
