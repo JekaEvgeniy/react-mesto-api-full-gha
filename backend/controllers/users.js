@@ -37,7 +37,7 @@ const login = (req, res) => {
               maxAge: 360000 * 24 * 1,
               httpOnly: true,
               sameSite: true,
-            }).send(user);
+            }).send({ data: user.toJSON() }); // .send(user);
           } else {
             // С throw Postman Не вываливает сообщение о ошибках. >>> Could not get response
             // throw new ForbiddenError('Неправильный логин/пароль');
