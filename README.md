@@ -3,18 +3,20 @@
 # react-mesto-api-full
 Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`.
 
-Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
-
-Адрес репозитория: https://github.com/...
+## Адрес репозитория:
+[github](https://github.com/JekaEvgeniy/react-mesto-api-full-gha)
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.121.100
 
-Frontend https://...
+Frontend:
+* [https://mmm.nomoredomainsrocks.ru/](https://mmm.nomoredomainsrocks.ru/)
+* [http://mmm.nomoredomainsrocks.ru/](http://mmm.nomoredomainsrocks.ru/)
 
-Backend https://...
-
+Backend:
+* [http://api.mmm.nomoredomainsrocks.ru/](http://api.mmm.nomoredomainsrocks.ru/)
+* [https://api.mmm.nomoredomainsrocks.ru/](https://api.mmm.nomoredomainsrocks.ru/)
 
 # Проект Mesto фронтенд + бэкенд
 
@@ -72,3 +74,4 @@ Backend https://...
 * [Чеклист 12 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-12.pdf)
 * [Чеклист 13 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist_13.pdf)
 * [Чеклист 14 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist_14.pdf)
+* [Чеклист 15 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist_15.pdf)
