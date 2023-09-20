@@ -1,5 +1,5 @@
 // import React from "react";
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.mmm.nomoredomainsrocks.ru/';
 
 const checkResponse = (res) => {
 	// Проверка статуса ответа сервера
