@@ -1,0 +1,8 @@
+.card__figure {
+	margin: 0;
+
+	overflow     : hidden;
+	border-radius: 10px 10px 0 0;
+
+	aspect-ratio: 1 / 1;
+}

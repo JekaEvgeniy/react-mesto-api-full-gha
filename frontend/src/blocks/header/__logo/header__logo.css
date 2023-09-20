@@ -1,0 +1,12 @@
+.header__logo {
+	display: block;
+	width  : 142px;
+	height : 33px;
+}
+
+@media all and (max-width: 767px) {
+	.header__logo {
+		width : 104px;
+		height: 25px;
+	}
+}

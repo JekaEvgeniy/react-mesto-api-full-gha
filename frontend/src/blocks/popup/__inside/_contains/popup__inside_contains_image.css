@@ -1,0 +1,14 @@
+.popup__inside_contains_image {
+	display        : flex;
+	justify-content: center;
+
+	width: auto;
+	max-width: unset;
+}
+
+@media all and (max-width: 767px) {
+	.popup__inside_contains_image {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}

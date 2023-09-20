@@ -1,0 +1,16 @@
+.popup__circle-badge {
+	margin: 26px auto 32px auto;
+	width : 120px;
+	height: 120px;
+
+	background-size    : contain;
+	background-repeat  : no-repeat;
+	background-position: center;
+}
+
+@media all and (max-width: 767px) {
+	.popup__circle-badge {
+		margin-top   : 24px;
+		margin-bottom: 40px;
+	}
+}

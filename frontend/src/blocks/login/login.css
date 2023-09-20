@@ -1,0 +1,14 @@
+.login {
+	max-width     : 358px;
+	margin        : 0 auto;
+	padding-top   : 60px;
+	padding-bottom: 60px;
+
+	color: #fff;
+}
+
+@media all and (max-width: 767px) {
+	.login {
+		padding: 40px 11px 40px 11px;
+	}
+}

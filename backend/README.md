@@ -1,32 +1,21 @@
-[![Статус тестов](../../actions/workflows/tests.yml/badge.svg)](../../actions/workflows/tests.yml)
-
-# react-mesto-api-full
-Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`.
-
-Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
-
-Адрес репозитория: https://github.com/...
-
-## Ссылки на проект
-
-IP-адрес x.x.x.x
-
-Frontend https://...
-
-Backend https://...
-
-
+[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
-## Запуск backend проекта
+## Запуск проекта
 `npm run start` — запускает сервер
 `npm run dev` — запускает сервер с hot-reload
 `npm run lint` - проверка eslint
 
-## Запуск frontend проекта
-`npm start`
-`npm run build`
-`npm run eject`
+# Проект: Mesto Russia
+* [Github](https://github.com/JekaEvgeniy/mesto)
+* [GitHub Pages](https://jekaevgeniy.github.io/mesto/index.html)
+
+## ПР10:
+* [Github Mesto-React](https://github.com/JekaEvgeniy/mesto-react)
+* [GitHub Pages Mesto-React](https://jekaevgeniy.github.io/mesto-react/)
+
+## ПР13 + 14:
+* [Github Mesto-Express](https://github.com/JekaEvgeniy/express-mesto-gha)
 
 ## Обзор
 Данный проект направлен на импортозамещение социальной сети M**A в России. В данной проектной работе впервые используется Javascript.

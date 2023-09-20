@@ -1,0 +1,31 @@
+.header__button {
+	box-sizing: border-box;
+	display   : block;
+
+	margin : 0;
+	padding: 0;
+	height : auto;
+	width  : auto;
+
+	background-color: transparent;
+	border          : none;
+
+	transition: color 0.3s ease-in-out;
+
+	font-family: 'Inter', Arial, sans-serif;
+	font-size  : 18px;
+	font-weight: 400;
+	line-height: normal;
+	text-indent: 0;
+
+	white-space: nowrap;
+
+	color: #A9A9A9;
+
+	cursor     : pointer;
+	user-select: none;
+}
+
+.header__button:hover {
+	color: #fff;
+}

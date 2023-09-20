@@ -1,0 +1,6 @@
+@media all and (max-width: 767px) {
+	.popup__title_phone-oversized {
+		font-size  : 20px;
+		line-height: 24px;
+	}
+}

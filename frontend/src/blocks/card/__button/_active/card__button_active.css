@@ -1,0 +1,7 @@
+.card__button_active {
+	background-image : url(../../../../images/card/favorite_active.svg);
+}
+
+.card__button_active:hover {
+	opacity: 1;
+}

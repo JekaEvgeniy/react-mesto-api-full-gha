@@ -1,0 +1,14 @@
+.login__caption {
+	display: block;
+	margin : 15px 0 0 0;
+
+	font-size  : 14px;
+	line-height: 17px;
+	text-align : center;
+}
+
+@media all and (max-width: 767px) {
+	.login__caption {
+		margin-top: 20px;
+	}
+}

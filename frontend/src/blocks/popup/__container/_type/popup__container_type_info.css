@@ -1,0 +1,9 @@
+.popup__container_type_info {
+	padding-bottom: 60px;
+}
+
+@media all and (max-width: 767px) {
+	.popup__container_type_info {
+		padding-bottom: 50px;
+	}
+}

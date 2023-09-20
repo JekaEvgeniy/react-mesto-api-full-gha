@@ -1,0 +1,34 @@
+.profile__button_type_edit {
+	position: relative;
+	flex    : 0 0 auto;
+
+	width : 24px;
+	height: 24px;
+
+	background-repeat  : no-repeat;
+	background-position: center;
+	background-image   : url(../../../../images/profile/btn-edit.svg);
+	background-size    : contain;
+}
+
+.profile__button_type_edit:after {
+	box-sizing: border-box;
+
+	position: absolute;
+	top     : 0;
+	left    : 0;
+	width   : 100%;
+	height  : 100%;
+
+	content: '';
+	border : 1px solid #fff;
+
+	pointer-events: none;
+}
+
+@media all and (max-width: 1023px) {
+	.profile__button_type_edit {
+		width : 18px;
+		height: 18px;
+	}
+}

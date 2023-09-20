@@ -1,0 +1,26 @@
+.card__button {
+	flex: 0 0 auto;
+
+	margin : 0;
+	padding: 0;
+
+	width : 23px;
+	height: 20px;
+
+	display         : inline-flex;
+	background-color: transparent;
+	border          : none;
+
+	transition: opacity 0.3s ease-in-out;
+
+	cursor     : pointer;
+	user-select: none;
+
+	background-repeat  : no-repeat;
+	background-position: center;
+	background-image   : url(../../../images/card/favorite.svg);
+}
+
+.card__button:hover {
+	opacity: 0.5;
+}

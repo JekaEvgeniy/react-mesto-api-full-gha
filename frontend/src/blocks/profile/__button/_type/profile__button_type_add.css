@@ -1,0 +1,52 @@
+.profile__button_type_add {
+	position: relative;
+
+	width    : 100%;
+	max-width: 150px;
+	height   : 50px;
+
+	border       : 2px solid #fff;
+	border-radius: 2px;
+}
+
+.profile__button_type_add:before,
+.profile__button_type_add:after {
+	box-sizing: border-box;
+	position  : absolute;
+	top       : 50%;
+	left      : 50%;
+
+	background-color: #fff;
+	content         : '';
+}
+
+.profile__button_type_add:before {
+	width      : 22px;
+	height     : 2px;
+	margin-left: -11px;
+	margin-top : -1px;
+}
+
+.profile__button_type_add:after {
+	height     : 22px;
+	width      : 2px;
+	margin-top : -11px;
+	margin-left: -1px;
+}
+
+@media all and (max-width: 1023px) {
+	.profile__button_type_add {
+		max-width : 100%;
+		margin-top: 33px;
+	}
+
+	.profile__button_type_add:before {
+		width      : 16px;
+		margin-left: -8px;
+	}
+
+	.profile__button_type_add:after {
+		height    : 16px;
+		margin-top: -8px;
+	}
+}
