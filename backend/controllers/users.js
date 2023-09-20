@@ -4,6 +4,8 @@ const { codeErrors, codeSuccess } = require('../vars/data');
 const BadRequestError = require('../errors/BadRequestError');
 const User = require('../models/user');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const login = (req, res) => {
   // console.log('POST /login');
   if (!req.body) {
@@ -27,7 +29,7 @@ const login = (req, res) => {
           if (isValidUser) {
             const token = jwt.sign(
               { _id: user._id },
-              process.env.JWT_CODE,
+              NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code',
               { expiresIn: '1d' },
             );
 
