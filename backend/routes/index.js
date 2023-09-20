@@ -7,6 +7,15 @@ const cardRoutes = require('./cards');
 const { createUser, getCurrentUser, login } = require('../controllers/users');
 const auth = require('../widdlewares/auth');
 
+// Краш-тест сервера
+// ATTENTION: Не забудьте удалить этот код после успешного прохождения ревью.
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+// END ATTENTION: Не забудьте удалить этот код после успешного прохождения ревью.
+
 // https://regex101.com/
 // ТЗ: Поле password не ограничено в длину, так как пароль хранится в виде хеша
 router.post(
