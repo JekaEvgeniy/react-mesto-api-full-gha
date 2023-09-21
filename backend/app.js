@@ -22,6 +22,7 @@ app.use(cors({
     'http://localhost:3000',
   ],
   credentials: true,
+  maxAge: 3600,
 }));
 
 mongoose.connect(DATA_BASE, {

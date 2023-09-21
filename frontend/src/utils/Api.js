@@ -24,6 +24,7 @@ class Api {
 	*/
 	getCards() {
 		return fetch(this._cardsUrl, {
+      credentials: 'include',// т.к. исп. куки. нужно для cors. см. вебинар "Авторизация через куки, работа с сервером через vscode, cors"
 			headers: this._headers
 		})
 			.then(this._checkResponse)
@@ -34,6 +35,7 @@ class Api {
 
 	addNewCard(data) {
 		return fetch(this._cardsUrl, {
+      credentials: 'include',
 			method: 'POST',
 			headers: this._headers,
 			body: JSON.stringify(data),
@@ -47,6 +49,7 @@ class Api {
 
 	removeCard(id) {
 		return fetch(`${this._cardsUrl}/${id}`, {
+      credentials: 'include',
 			method: 'DELETE',
 			headers: this._headers,
 		})
@@ -59,6 +62,7 @@ class Api {
 
 	addLike(id) {
 		return fetch(`${this._cardID}/likes//${id}`, {
+      credentials: 'include',
 			headers: this._headers,
 			method: 'PUT',
 		})
@@ -70,6 +74,7 @@ class Api {
 
 	removeLike(id) {
 		return fetch(`${this._cardID}/likes//${id}`, {
+      credentials: 'include',
 			headers: this._headers,
 			method: 'DELETE',
 		})
@@ -94,6 +99,7 @@ class Api {
 
 	getUserInfo() {
 		return fetch(this._userUrl, {
+      credentials: 'include',
 			headers: this._headers
 		})
 			.then(this._checkResponse)
@@ -105,6 +111,7 @@ class Api {
 	setUserInfo(data) {
 
 		return fetch(this._userUrl, {
+      credentials: 'include',
 			method: 'PATCH',
 			headers: this._headers,
 			body: JSON.stringify(data),
@@ -118,6 +125,7 @@ class Api {
 	setUserAvatar(data) {
 
 		return fetch(this._userAvatarUrl, {
+      credentials: 'include',
 			method: 'PATCH',
 			headers: this._headers,
 			body: JSON.stringify(data),
