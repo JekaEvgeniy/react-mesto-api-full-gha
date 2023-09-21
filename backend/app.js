@@ -15,7 +15,7 @@ const app = express();
 
 const { PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
-app.use(cors({ credential: true }));
+app.use(cors({ credentials: true }));
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
