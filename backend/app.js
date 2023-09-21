@@ -21,7 +21,9 @@ app.use(cors({
     'https://mmm.nomoredomainsrocks.ru',
     'http://mmm.nomoredomainsrocks.ru',
     'http://localhost:3000',
+    'http://localhost:3001',
   ],
+  methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   credentials: true,
   maxAge: 60, // sec
 }));
