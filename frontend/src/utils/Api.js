@@ -145,7 +145,7 @@ class Api {
 // 	}
 // });
 const api = new Api({
-  url: 'https://api.mmm.nomoredomainsrocks.ru/'
+  url: 'https://api.mmm.nomoredomainsrocks.ru'
 });
 
 export default api;
