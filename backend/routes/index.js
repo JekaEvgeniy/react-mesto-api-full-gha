@@ -6,7 +6,6 @@ const userRoutes = require('./users');
 const cardRoutes = require('./cards');
 const { createUser, getCurrentUser, login } = require('../controllers/users');
 const auth = require('../widdlewares/auth');
-const NotFoundError = require('../errors/NotFoundError');
 
 // Краш-тест сервера
 // ATTENTION: Не забудьте удалить этот код после успешного прохождения ревью.
@@ -51,7 +50,9 @@ router.use('/cards', cardRoutes);
 router.use('/me', getCurrentUser);
 
 router.use('*', (req, res) => {
-  next(new NotFoundError('Запрашиваемой страницы нет!'));
+  res.status(codeErrors.notFound).send({
+    message: 'Запрашиваемой страницы нет!',
+  });
 });
 
 module.exports = router;
