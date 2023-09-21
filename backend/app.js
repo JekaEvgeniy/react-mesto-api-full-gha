@@ -17,8 +17,8 @@ const { PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process
 
 app.use(cors({
   origin: [
-    'https://mmm.nomoredomainsrocks.ru/',
-    'http://mmm.nomoredomainsrocks.ru/',
+    'https://mmm.nomoredomainsrocks.ru',
+    'http://mmm.nomoredomainsrocks.ru',
     'http://localhost:3000',
   ],
   credentials: true,
