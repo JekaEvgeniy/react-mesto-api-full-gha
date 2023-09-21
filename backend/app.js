@@ -7,6 +7,7 @@ const cookies = require('cookie-parser');
 
 const router = require('./routes');
 const errorHandler = require('./widdlewares/error');
+const { requestLogger, errorLogger } = require('./widdlewares/logger');
 
 // const bodyParser = require('body-parser');
 const app = express();
@@ -32,7 +33,11 @@ mongoose.connect(DATA_BASE, {
 app.use(express.json());
 app.use(cookies());
 
+app.use(requestLogger); // подключаем логгер запросов
+
 app.use(router);
+
+app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors()); // for celebrate
 
