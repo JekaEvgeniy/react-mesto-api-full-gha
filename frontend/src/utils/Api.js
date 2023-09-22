@@ -1,7 +1,7 @@
 class Api {
 	constructor({ url, headers }) {
 		this._url = url;
-		this._headers = headers;
+		// this._headers = headers;
 
 		this._cardsUrl = this._url + '/cards';
 		this._cardID = this._url + '/cards/';
@@ -10,6 +10,16 @@ class Api {
 		this._userUrl = this._url + '/users/me';
 		this._userAvatarUrl = this._url + '/users/me/avatar';
 	}
+
+  _headers() {
+    const jwt = localStorage.getItem('jwt');
+    console.log(`jwt = ${jwt}`);
+
+    return {
+      'Authorization': `Bearer ${jwt}`,
+      'Content-Type': 'application/json'
+    };
+  }
 
 	_checkResponse(res) {
 		// Проверка статуса ответа сервера
@@ -22,10 +32,24 @@ class Api {
 	/*
 	* Работаем с карточками
 	*/
+	// getCards() {
+	// 	return fetch(this._cardsUrl, {
+	// 		headers: this._headers()
+	// 	})
+	// 		.then(this._checkResponse)
+	// 		// .catch((err) => {
+	// 		// 	console.error('Ошибка! Ошибка при выводе карточек');
+	// 		// })
+	// }
+
 	getCards() {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(this._cardsUrl, {
-      // credentials: 'include',// т.к. исп. куки. нужно для cors. см. вебинар "Авторизация через куки, работа с сервером через vscode, cors"
-			headers: this._headers
+			headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 		})
 			.then(this._checkResponse)
 			// .catch((err) => {
@@ -34,10 +58,15 @@ class Api {
 	}
 
 	addNewCard(data) {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(this._cardsUrl, {
-      // credentials: 'include',
 			method: 'POST',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -48,10 +77,15 @@ class Api {
 
 
 	removeCard(id) {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(`${this._cardsUrl}/${id}`, {
-      // credentials: 'include',
 			method: 'DELETE',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -61,9 +95,14 @@ class Api {
 
 
 	addLike(id) {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(`${this._cardID}/likes//${id}`, {
-      // credentials: 'include',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 			method: 'PUT',
 		})
 			.then(this._checkResponse)
@@ -73,9 +112,14 @@ class Api {
 	}
 
 	removeLike(id) {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(`${this._cardID}/likes//${id}`, {
-      // credentials: 'include',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 			method: 'DELETE',
 		})
 			.then(this._checkResponse)
@@ -98,9 +142,14 @@ class Api {
 	*/
 
 	getUserInfo() {
+    const jwt = localStorage.getItem('jwt');
+
 		return fetch(this._userUrl, {
-      // credentials: 'include',
-			headers: this._headers
+			// headers: this._headers()
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -109,11 +158,16 @@ class Api {
 	}
 
 	setUserInfo(data) {
+    const jwt = localStorage.getItem('jwt');
 
 		return fetch(this._userUrl, {
-      // credentials: 'include',
 			method: 'PATCH',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -123,11 +177,15 @@ class Api {
 	}
 
 	setUserAvatar(data) {
+    const jwt = localStorage.getItem('jwt');
 
 		return fetch(this._userAvatarUrl, {
-      // credentials: 'include',
 			method: 'PATCH',
-			headers: this._headers,
+			// headers: this._headers(),
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)

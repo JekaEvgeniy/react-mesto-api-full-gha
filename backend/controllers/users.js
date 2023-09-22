@@ -38,13 +38,15 @@ const login = (req, res, next) => {
             );
             // console.log(`token = ${token}`);
 
-            res.cookie('jwt', token, {
-              maxAge: 360000 * 24 * 1,
-              httpOnly: true,
-              sameSite: true,
-            });
-            res.send(user);
-            // .send({ data: user.toJSON() }); // .send(user);
+            // При куках возвращаем:
+            // res.cookie('jwt', token, {
+            //   maxAge: 360000 * 24 * 1,
+            //   httpOnly: true,
+            //   sameSite: true,
+            // });
+            // res.send({ data: user.toJSON() }); // .send(user);
+
+            res.status(200).send({ token });
           } else {
             // С throw Postman Не вываливает сообщение о ошибках. >>> Could not get response
             // throw new ForbiddenError('Неправильный логин/пароль');

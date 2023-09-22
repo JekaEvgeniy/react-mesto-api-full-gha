@@ -25,7 +25,7 @@ app.use(cors({
   ],
   methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   credentials: true,
-  maxAge: 60, // sec
+  // maxAge: 60, // sec
 }));
 
 mongoose.connect(DATA_BASE, {
