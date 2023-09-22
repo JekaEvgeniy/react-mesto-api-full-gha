@@ -30,6 +30,7 @@ app.use(cors({
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
+  family: 4,
 });
 
 app.use(express.json());

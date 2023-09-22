@@ -10,7 +10,7 @@ const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   // console.log('POST /login');
   if (!req.body) {
     throw new ForbiddenError('Неправильный логин/пароль');
@@ -36,7 +36,7 @@ const login = (req, res) => {
               NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code',
               { expiresIn: '1d' },
             );
-            console.log(`token = ${token}`);
+            // console.log(`token = ${token}`);
 
             res.cookie('jwt', token, {
               maxAge: 360000 * 24 * 1,
@@ -58,7 +58,7 @@ const login = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   // console.log('POST /signup >>> users.js > createUser');
 
   if (!req.body) {
@@ -103,7 +103,7 @@ const createUser = (req, res) => {
     });
 };
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   // console.log('GET /users');
   // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
@@ -114,7 +114,7 @@ const getUsers = (req, res) => {
     });
 };
 
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
@@ -122,8 +122,6 @@ const getCurrentUser = (req, res) => {
     .then((user) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
-      } else {
-        next(err);
       }
     })
     .catch((err) => {
@@ -137,7 +135,7 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-const getUserById = (req, res) => {
+const getUserById = (req, res, next) => {
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('Not Found');
@@ -162,7 +160,7 @@ const getUserById = (req, res) => {
     });
 };
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
@@ -186,7 +184,7 @@ const updateUser = (req, res) => {
     });
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(
