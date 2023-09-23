@@ -4,6 +4,7 @@ export const BASE_URL = 'http://localhost:3000';
 
 const checkResponse = (res) => {
 	// Проверка статуса ответа сервера
+  console.log(`checkResponse() ===> `);
 
 	if (res.ok) return res.json()
 
@@ -25,7 +26,6 @@ export const register = ({ email, password }) => {
 export const authorize = ({ email, password }) => {
 	return fetch(`${BASE_URL}/signin`, {
 		method: 'POST',
-    credentials: 'include',
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
@@ -34,17 +34,34 @@ export const authorize = ({ email, password }) => {
 		body: JSON.stringify({ email, password })
 
 	})
-	.then(checkResponse);
+	.then(checkResponse)
+  .then((data) => {
+    const token = data.token;
+    console.log(`token = ${token}`);
+    if (token) {
+      localStorage.setItem('jwt', data.token);
+    }
+
+
+    return data;
+  });
 };
 
-export const getContent = (token) => {
+export const checkToken = (token) => {
+  console.log(`BASE_URL = ${BASE_URL}`);
+  if (! token ){
+    token = localStorage.getItem('jwt');
+  }
+
+  console.log(`Auth.js checkToken() >>>> token = ${token}`);
+
 	return fetch(`${BASE_URL}/users/me`, {
 		method: 'GET',
-    credentials: 'include',
+    //credentials: 'include',
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`,
+			'Authorization': `Bearer ${token}`
 		},
-	}).then(checkResponse);
+  }).then(checkResponse);
 };

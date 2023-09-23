@@ -1,7 +1,7 @@
 class Api {
 	constructor({ url, headers }) {
 		this._url = url;
-		// this._headers = headers;
+		this._headers = headers;
 
 		this._cardsUrl = this._url + '/cards';
 		this._cardID = this._url + '/cards/';
@@ -11,20 +11,18 @@ class Api {
 		this._userAvatarUrl = this._url + '/users/me/avatar';
 	}
 
-  _headers() {
-    const jwt = localStorage.getItem('jwt');
-    console.log(`jwt = ${jwt}`);
-
-    return {
-      'Authorization': `Bearer ${jwt}`,
-      'Content-Type': 'application/json'
-    };
+  setToken(token) {
+    console.warn(`api.setToken >>> token = ${token}`);
+    // if (token) {
+    //   console.log('1');
+    //   this._headers.Authorization = `Bearer ${token}`;
+    // }
   }
 
 	_checkResponse(res) {
 		// Проверка статуса ответа сервера
 
-		if (res.ok) return res.json()
+		if (res.ok) return res.json();
 
 		return Promise.reject('Promise reject error');
 	}
@@ -32,24 +30,11 @@ class Api {
 	/*
 	* Работаем с карточками
 	*/
-	// getCards() {
-	// 	return fetch(this._cardsUrl, {
-	// 		headers: this._headers()
-	// 	})
-	// 		.then(this._checkResponse)
-	// 		// .catch((err) => {
-	// 		// 	console.error('Ошибка! Ошибка при выводе карточек');
-	// 		// })
-	// }
 
 	getCards() {
-    const jwt = localStorage.getItem('jwt');
-
 		return fetch(this._cardsUrl, {
-			headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+			headers: this._headers,
+      credentials: 'include',
 		})
 			.then(this._checkResponse)
 			// .catch((err) => {
@@ -58,15 +43,10 @@ class Api {
 	}
 
 	addNewCard(data) {
-    const jwt = localStorage.getItem('jwt');
-
 		return fetch(this._cardsUrl, {
 			method: 'POST',
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+			headers: this._headers,
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -77,15 +57,10 @@ class Api {
 
 
 	removeCard(id) {
-    const jwt = localStorage.getItem('jwt');
-
 		return fetch(`${this._cardsUrl}/${id}`, {
 			method: 'DELETE',
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+			headers: this._headers,
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -95,15 +70,10 @@ class Api {
 
 
 	addLike(id) {
-    const jwt = localStorage.getItem('jwt');
-
 		return fetch(`${this._cardID}/likes//${id}`, {
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+			headers: this._headers,
 			method: 'PUT',
+      credentials: 'include',
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -112,15 +82,10 @@ class Api {
 	}
 
 	removeLike(id) {
-    const jwt = localStorage.getItem('jwt');
-
 		return fetch(`${this._cardID}/likes//${id}`, {
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+			headers: this._headers,
 			method: 'DELETE',
+      credentials: 'include',
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -142,32 +107,24 @@ class Api {
 	*/
 
 	getUserInfo() {
-    const jwt = localStorage.getItem('jwt');
-
-		return fetch(this._userUrl, {
-			// headers: this._headers()
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+		return fetch(this._userUrl,{
+      method: "GET",
+			headers: this._headers,
+      // credentials: 'include'
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
-				console.error('Ошибка! Ошибка при получении данных о пользователе');
+				console.error(`Ошибка! Ошибка при получении данных о пользователе:}`);
+        console.error(err);
 			})
 	}
 
 	setUserInfo(data) {
-    const jwt = localStorage.getItem('jwt');
 
 		return fetch(this._userUrl, {
 			method: 'PATCH',
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
-
+			headers: this._headers,
+      credentials: 'include',
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -177,15 +134,11 @@ class Api {
 	}
 
 	setUserAvatar(data) {
-    const jwt = localStorage.getItem('jwt');
 
 		return fetch(this._userAvatarUrl, {
 			method: 'PATCH',
-			// headers: this._headers(),
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
+			headers: this._headers,
+      credentials: 'include',
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -197,7 +150,11 @@ class Api {
 
 const api = new Api({
   // url: 'https://api.mmm.nomoredomainsrocks.ru'
-  url: 'http://localhost:3000'
+  url: 'http://localhost:3000',
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    'Content-Type': "application/json",
+  },
 });
 
 export default api;

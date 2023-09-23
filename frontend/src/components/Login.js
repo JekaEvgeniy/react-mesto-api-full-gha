@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as auth from '../utils/Auth';
+import api from '../utils/Api';
 
 function Login({ handleLogin, handleInfoTooltip }) {
 	const navigate = useNavigate();
@@ -27,17 +28,20 @@ function Login({ handleLogin, handleInfoTooltip }) {
 
 		auth.authorize({ email, password })
 			.then(data => {
+        const token = data.token;
+        console.log(`Login.js >>> handleSubmit() >>> token = ${token}`);
 
-				if (data.token) {
-					localStorage.setItem('jwt', data.token);
-
-					handleLogin();
-
-					navigate('/');
+				if (token) {
+					localStorage.setItem('jwt', token);
+          api.setToken(token);
 				}
 
+        handleLogin();
+
+        navigate('/');
 			})
 			.catch((err) => {
+        console.log('-----------------------');
 				console.error(err);
 
 				handleInfoTooltip('error');

@@ -50,7 +50,9 @@ function App() {
 		}
 
 		api.getUserInfo()
-			.then(setCurrentUser)
+			.then((data) => {
+        setCurrentUser(data);
+      })
 			.catch(err => console.error(err));
 
 		api.getCards()
@@ -146,13 +148,20 @@ function App() {
 	}
 
 	const handleLogin = () => {
+    console.log(`handleLogin()`);
 		setLoggedIn(true);
 	}
 
-	const handleRegister = ({ email, password }) => {
-		auth.register(email, password)
+	const handleRegister = (data) => {
+    console.log(`handleRegister()`);
+		auth.register(data)
 			.then((res) => {
-				localStorage.setItem("jwt", res.token);
+        const token = res.token;
+        console.log(`handleRegister() >>> token = ${token}`);
+        if ( token ){
+          localStorage.setItem("jwt", token);
+          // api.setToken(token);
+        }
 
 				setLoggedIn(true);
 				navigate('/');
@@ -162,13 +171,17 @@ function App() {
 			});
 	}
 
-	const tockenCheck = () => {
-		const jwt = localStorage.getItem('jwt');
+	const checkToken = () => {
+    console.log('============= checkToken() =============');
+		const token = localStorage.getItem('jwt');
+    console.log(`checkToken() ===> token = ${token}`);
 
-		if (jwt) {
-			auth.getContent(jwt)
+    if (token) {
+      console.log('>>>> next auth.checkToken() >>>> ');
+      auth.checkToken(token)
 				.then(user => {
-
+          console.table(user);
+          console.log(`user.data.email = ${user.data.email}`);
 					setEmail(user.data.email);
 
 					handleLogin(user);
@@ -176,13 +189,17 @@ function App() {
 					navigate('/');
 				})
 				.catch((err) => {
+          console.log('checkToken ERROR >>>');
 					console.error(err);
 				});
-		}
+		}else {
+      console.log(`App.js checkToken ELSE`);
+    }
 	}
 
 	useEffect(() => {
-		tockenCheck();
+    console.log(`useEffect() => `);
+		checkToken();
 	}, []);
 
 
