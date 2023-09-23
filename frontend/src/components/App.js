@@ -50,9 +50,7 @@ function App() {
 		}
 
 		api.getUserInfo()
-			.then((data) => {
-        setCurrentUser(data);
-      })
+			.then(setCurrentUser)
 			.catch(err => console.error(err));
 
 		api.getCards()
@@ -148,20 +146,13 @@ function App() {
 	}
 
 	const handleLogin = () => {
-    console.log(`handleLogin()`);
 		setLoggedIn(true);
 	}
 
-	const handleRegister = (data) => {
-    console.log(`handleRegister()`);
-		auth.register(data)
+	const handleRegister = ({ email, password }) => {
+		auth.register(email, password)
 			.then((res) => {
-        const token = res.token;
-        console.log(`handleRegister() >>> token = ${token}`);
-        if ( token ){
-          localStorage.setItem("jwt", token);
-          // api.setToken(token);
-        }
+				localStorage.setItem("jwt", res.token);
 
 				setLoggedIn(true);
 				navigate('/');
@@ -171,35 +162,29 @@ function App() {
 			});
 	}
 
-	const checkToken = () => {
-    console.log('============= checkToken() =============');
-		const token = localStorage.getItem('jwt');
-    console.log(`checkToken() ===> token = ${token}`);
+	const tockenCheck = () => {
+		const jwt = localStorage.getItem('jwt');
+    console.log(`jwt =  ${jwt}` );
 
-    if (token) {
-      console.log('>>>> next auth.checkToken() >>>> ');
-      auth.checkToken(token)
-				.then(user => {
-          console.table(user);
-          console.log(`user.data.email = ${user.data.email}`);
-					setEmail(user.data.email);
+		if (jwt) {
+			// auth.getContent(jwt)
+			// 	.then(user => {
+      //     console.log(user);
 
-					handleLogin(user);
+			// 		setEmail(user.data.email);
 
-					navigate('/');
-				})
-				.catch((err) => {
-          console.log('checkToken ERROR >>>');
-					console.error(err);
-				});
-		}else {
-      console.log(`App.js checkToken ELSE`);
-    }
+			// 		handleLogin(user);
+
+			// 		navigate('/');
+			// 	})
+			// 	.catch((err) => {
+			// 		console.error(err);
+			// 	});
+		}
 	}
 
 	useEffect(() => {
-    console.log(`useEffect() => `);
-		checkToken();
+		tockenCheck();
 	}, []);
 
 

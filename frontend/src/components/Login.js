@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as auth from '../utils/Auth';
-import api from '../utils/Api';
 
 function Login({ handleLogin, handleInfoTooltip }) {
 	const navigate = useNavigate();
@@ -24,24 +23,24 @@ function Login({ handleLogin, handleInfoTooltip }) {
 		e.preventDefault();
 
 		const { email, password } = formValue;
+    console.log(`email = ${email}`);
+    console.log(`password = ${password}`);
 
 
 		auth.authorize({ email, password })
 			.then(data => {
-        const token = data.token;
-        console.log(`Login.js >>> handleSubmit() >>> token = ${token}`);
+        console.log(`handleSubmit >>> data.token = ${data.token}`);
+				if (data.token) {
+					localStorage.setItem('jwt', data.token);
 
-				if (token) {
-					localStorage.setItem('jwt', token);
-          api.setToken(token);
+					handleLogin();
+
+					navigate('/');
 				}
 
-        handleLogin();
-
-        navigate('/');
 			})
 			.catch((err) => {
-        console.log('-----------------------');
+        console.error('handleSubmit >>> ERROR');
 				console.error(err);
 
 				handleInfoTooltip('error');

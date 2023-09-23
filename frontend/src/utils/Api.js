@@ -9,20 +9,15 @@ class Api {
 
 		this._userUrl = this._url + '/users/me';
 		this._userAvatarUrl = this._url + '/users/me/avatar';
-	}
 
-  setToken(token) {
-    console.warn(`api.setToken >>> token = ${token}`);
-    // if (token) {
-    //   console.log('1');
-    //   this._headers.Authorization = `Bearer ${token}`;
-    // }
-  }
+    this._defaultHeaders = { 'Content-Type': 'application/json' };
+
+	}
 
 	_checkResponse(res) {
 		// Проверка статуса ответа сервера
 
-		if (res.ok) return res.json();
+		if (res.ok) return res.json()
 
 		return Promise.reject('Promise reject error');
 	}
@@ -30,11 +25,10 @@ class Api {
 	/*
 	* Работаем с карточками
 	*/
-
 	getCards() {
 		return fetch(this._cardsUrl, {
-			headers: this._headers,
-      credentials: 'include',
+      // credentials: 'include',// т.к. исп. куки. нужно для cors. см. вебинар "Авторизация через куки, работа с сервером через vscode, cors"
+			headers: this._headers
 		})
 			.then(this._checkResponse)
 			// .catch((err) => {
@@ -44,8 +38,8 @@ class Api {
 
 	addNewCard(data) {
 		return fetch(this._cardsUrl, {
+      // credentials: 'include',
 			method: 'POST',
-      credentials: 'include',
 			headers: this._headers,
 			body: JSON.stringify(data),
 		})
@@ -58,8 +52,8 @@ class Api {
 
 	removeCard(id) {
 		return fetch(`${this._cardsUrl}/${id}`, {
+      // credentials: 'include',
 			method: 'DELETE',
-      credentials: 'include',
 			headers: this._headers,
 		})
 			.then(this._checkResponse)
@@ -71,9 +65,9 @@ class Api {
 
 	addLike(id) {
 		return fetch(`${this._cardID}/likes//${id}`, {
+      // credentials: 'include',
 			headers: this._headers,
 			method: 'PUT',
-      credentials: 'include',
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -83,9 +77,9 @@ class Api {
 
 	removeLike(id) {
 		return fetch(`${this._cardID}/likes//${id}`, {
+      // credentials: 'include',
 			headers: this._headers,
 			method: 'DELETE',
-      credentials: 'include',
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -107,24 +101,23 @@ class Api {
 	*/
 
 	getUserInfo() {
-		return fetch(this._userUrl,{
-      method: "GET",
+		return fetch(this._userUrl, {
+      // credentials: 'include',
 			headers: this._headers,
-      // credentials: 'include'
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
-				console.error(`Ошибка! Ошибка при получении данных о пользователе:}`);
-        console.error(err);
+				console.error('Ошибка! Ошибка при получении данных о пользователе');
 			})
 	}
 
 	setUserInfo(data) {
 
 		return fetch(this._userUrl, {
+      // credentials: 'include',
 			method: 'PATCH',
 			headers: this._headers,
-      credentials: 'include',
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -136,9 +129,9 @@ class Api {
 	setUserAvatar(data) {
 
 		return fetch(this._userAvatarUrl, {
+      // credentials: 'include',
 			method: 'PATCH',
 			headers: this._headers,
-      credentials: 'include',
 			body: JSON.stringify(data),
 		})
 			.then(this._checkResponse)
@@ -149,11 +142,10 @@ class Api {
 }
 
 const api = new Api({
-  // url: 'https://api.mmm.nomoredomainsrocks.ru'
-  url: 'http://localhost:3000',
+  url: 'https://api.mmm.nomoredomainsrocks.ru',
+  // url: 'https://localhost:3000',
   headers: {
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': "application/json",
+    'Content-Type': 'application/json'
   },
 });
 

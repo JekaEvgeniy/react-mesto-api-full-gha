@@ -21,16 +21,13 @@ app.use(cors({
     'https://mmm.nomoredomainsrocks.ru',
     'http://mmm.nomoredomainsrocks.ru',
     'http://localhost:3000',
-    'http://localhost:3001',
   ],
-  methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   credentials: true,
-  // maxAge: 60, // sec
+  maxAge: 60, // sec
 }));
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
-  family: 4,
 });
 
 app.use(express.json());
@@ -47,5 +44,5 @@ app.use(errors()); // for celebrate
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  // console.log('listen port 3000');
+  console.log('listen port 3000');
 });

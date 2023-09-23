@@ -10,7 +10,7 @@ const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const login = (req, res, next) => {
+const login = (req, res) => {
   // console.log('POST /login');
   if (!req.body) {
     throw new ForbiddenError('Неправильный логин/пароль');
@@ -22,6 +22,18 @@ const login = (req, res, next) => {
     // return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
     next(new BadRequestError('Поля email и password обязательны для заполнения'));
   }
+
+  // return User.findUserByCredentials(email, password)
+  //   .then((user) => {
+  //     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+  //     // res.send({ data: user.toJSON() }); // .send(user);
+  //     res.send({ token });
+  //   })
+  //   .catch((err) => {
+  //     console.error('>>> login.js ERROR');
+  //     console.error(err);
+  //     next(err);
+  //   });
 
   return User.findOne({ email })
     .select('+password')
@@ -36,31 +48,25 @@ const login = (req, res, next) => {
               NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code',
               { expiresIn: '1d' },
             );
-            // console.log(`token = ${token}`);
 
-            // При куках возвращаем:
-            // res.cookie('jwt', token, {
-            //   maxAge: 360000 * 24 * 1,
-            //   httpOnly: true,
-            //   sameSite: true,
-            // });
-            // res.send({ data: user.toJSON() }); // .send(user);
-
-            res.status(200).send({ token });
+            res.cookie('jwt', token, {
+              maxAge: 360000 * 24 * 1,
+              httpOnly: true,
+              sameSite: true,
+            }).send({ data: user.toJSON() }); // .send(user);
           } else {
             // С throw Postman Не вываливает сообщение о ошибках. >>> Could not get response
-            // throw new ForbiddenError('Неправильный логин/пароль');
-            next(new ForbiddenError('Неправильный логин/пароль'));
+            // next(new ForbiddenError('Неправильный логин/пароль'));
+            throw new ForbiddenError('Неправильный логин/пароль');
           }
         });
     })
-    .catch(() => {
-      next(new ForbiddenError('Неправильный логин/пароль'));
-      // res.status(401).send({ message: 'Неправильный логин/пароль' })
+    .catch((err) => {
+      next(err);
     });
 };
 
-const createUser = (req, res, next) => {
+const createUser = (req, res) => {
   // console.log('POST /signup >>> users.js > createUser');
 
   if (!req.body) {
@@ -105,7 +111,7 @@ const createUser = (req, res, next) => {
     });
 };
 
-const getUsers = (req, res, next) => {
+const getUsers = (req, res) => {
   // console.log('GET /users');
   // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
@@ -116,7 +122,7 @@ const getUsers = (req, res, next) => {
     });
 };
 
-const getCurrentUser = (req, res, next) => {
+const getCurrentUser = (req, res) => {
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
@@ -124,6 +130,8 @@ const getCurrentUser = (req, res, next) => {
     .then((user) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
+      } else {
+        next(err);
       }
     })
     .catch((err) => {
@@ -137,7 +145,7 @@ const getCurrentUser = (req, res, next) => {
     });
 };
 
-const getUserById = (req, res, next) => {
+const getUserById = (req, res) => {
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('Not Found');
@@ -162,7 +170,7 @@ const getUserById = (req, res, next) => {
     });
 };
 
-const updateUser = (req, res, next) => {
+const updateUser = (req, res) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
@@ -186,7 +194,7 @@ const updateUser = (req, res, next) => {
     });
 };
 
-const updateAvatar = (req, res, next) => {
+const updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(
