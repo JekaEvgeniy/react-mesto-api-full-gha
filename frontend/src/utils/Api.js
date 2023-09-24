@@ -132,7 +132,7 @@ class Api {
 		return fetch(this._userUrl, {
       method: "GET",
       // headers: this._headers,
-      // credentials: 'include',
+      credentials: 'include',
 			// headers: {
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },

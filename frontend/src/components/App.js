@@ -203,7 +203,11 @@ function App() {
                 console.log('info', info);
                 console.log('info.data =', info.data);
 
-                setCurrentUser(info);
+                // setCurrentUser(info);
+                api.setUserInfo(info)
+                  .then((updateUserData) => {
+                    setCurrentUser(updateUserData);
+
 
                 console.log('cards =>');
                 console.log(cards);
