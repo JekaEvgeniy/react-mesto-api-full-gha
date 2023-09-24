@@ -16,16 +16,16 @@ const app = express();
 
 const { PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
-// app.use(cors());
-app.use(cors({
-  origin: [
-    'https://mmm.nomoredomainsrocks.ru',
-    'http://mmm.nomoredomainsrocks.ru',
-    'http://localhost:3000',
-  ],
-  credentials: true,
-  // maxAge: 60, // sec
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: [
+//     'https://mmm.nomoredomainsrocks.ru',
+//     'http://mmm.nomoredomainsrocks.ru',
+//     'http://localhost:3000',
+//   ],
+//   credentials: true,
+//   // maxAge: 60, // sec
+// }));
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,

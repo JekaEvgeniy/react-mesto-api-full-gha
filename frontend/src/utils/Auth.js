@@ -1,6 +1,6 @@
 // import React from "react";
-export const BASE_URL = 'https://api.mmm.nomoredomainsrocks.ru';
-// export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://api.mmm.nomoredomainsrocks.ru';
+export const BASE_URL = 'http://localhost:3000';
 console.log(`BASE_URL = ${BASE_URL}`);
 
 const checkResponse = (res) => {
@@ -45,15 +45,44 @@ export const authorize = ({ email, password }) => {
   });
 };
 
-export const checkToken = () => {
-  const token = localStorage.getItem('jwt');
+// export const checkToken = () => {
+//   const token = localStorage.getItem('jwt');
+//   console.log(`Auth.js checkToken() =>>> `);
 
-	return fetch(`${BASE_URL}/users/me`, {
-		method: 'GET',
-    // credentials: 'include', // если true - ошибка CORS локально
+// 	return fetch(`${BASE_URL}/users/me`, {
+// 		method: 'GET',
+//     // credentials: 'include', // если true - ошибка CORS локально
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Authorization": `Bearer ${token}`
+//     },
+// 	})
+//   .then( (res) => {
+//     if (res.ok) {
+//       return res.json();
+//     }
+
+//     return Promise.reject(`Ошибка проверки токена: ${res.status}`)
+//   }
+
+//   );
+// };
+
+export const checkToken = (token) => {
+  // const token = localStorage.getItem('jwt');
+  const url = `${BASE_URL}/users/me`;
+
+  return fetch(url, {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-	}).then(checkResponse);
-};
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+    .then(checkResponse)
+    .then(data => data)
+    // .then(res => {
+    //   if (res.ok) return res.json();
+    //   return Promise.reject(`Ошибка проверки токена: ${res.status}`);
+    // });
+}

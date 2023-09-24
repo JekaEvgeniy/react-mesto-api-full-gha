@@ -28,8 +28,8 @@ const getCurrentUser = (req, res, next) => {
     })
     .then((user) => {
       if (user) {
-        // res.status(codeSuccess.ok).send(user);
-        res.status(codeSuccess.ok).send({ data: user });
+        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send({ data: user });
       }
     })
     .catch((err) => {
@@ -56,8 +56,8 @@ const getUserById = (req, res, next) => {
     })
     .then((user) => {
       if (user) {
-        // res.status(codeSuccess.ok).send(user);
-        res.status(codeSuccess.ok).send({ data: user });
+        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send({ data: user });
       } else {
         throw NotFoundError('Пользователь с указанным _id не найден');
       }
@@ -184,7 +184,7 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code', { expiresIn: '7d' });
 
       console.log(`token = ${token}`);
 

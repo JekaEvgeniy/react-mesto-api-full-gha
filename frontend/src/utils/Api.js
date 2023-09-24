@@ -57,7 +57,11 @@ class Api {
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },
       headers: this._injectAuth(this._defaultHeaders),
-			body: JSON.stringify(data),
+			// body: JSON.stringify(data),
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -83,8 +87,8 @@ class Api {
 	}
 
 
-	addLike(id) {
-		return fetch(`${this._cardID}/likes//${id}`, {
+	addLike(data) {
+    return fetch(`${this._url}/cards/${data._id}/likes`, {
       // credentials: 'include',
 			// headers: this._headers,
       // headers: {
@@ -99,8 +103,8 @@ class Api {
 			})
 	}
 
-	removeLike(id) {
-		return fetch(`${this._cardID}/likes//${id}`, {
+  removeLike(data) {
+    return fetch(`${this._url}/cards/${data._id}/likes`, {
       // credentials: 'include',
 			// headers: this._headers,
       // headers: {
@@ -115,11 +119,11 @@ class Api {
 			})
 	}
 
-	toggleLike(id, isLiked) {
+	toggleLike(data, isLiked) {
 		if (isLiked) {
-			return this.removeLike(id);
+			return this.removeLike(data);
 		} else {
-			return this.addLike(id);
+			return this.addLike(data);
 		}
 	}
 
@@ -128,31 +132,26 @@ class Api {
 	* Работаем с инфополем
 	*/
 
-	getUserInfo() {
+  getUserInfo() {
 		return fetch(this._userUrl, {
       method: "GET",
       // headers: this._headers,
-      credentials: 'include',
+      // credentials: 'include',
 			// headers: {
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },
       headers: this._injectAuth(this._defaultHeaders),
 		})
-      .then((res)=>{
-        console.error('Ошибка! Ошибка при получении данных о пользователе');
-        if (res.ok) return res.json();
-
-        return res.json().then((res) => {
-          throw new Error(res.message);
-        });
-      })
-			//.then(this._checkResponse)
+			.then(this._checkResponse)
 			.catch((err) => {
-				console.error('Ошибка! Ошибка при получении данных о пользователе');
+        console.error(`Ошибка! Ошибка при получении данных о пользователе: ${err}`);
 			})
 	}
 
-	setUserInfo({name, about}) {
+	setUserInfo(data) {
+
+    console.log(`setUserInfo()`);
+    console.log(data);
 
 		return fetch(this._userUrl, {
       // credentials: 'include',
@@ -163,11 +162,16 @@ class Api {
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },
       headers: this._injectAuth(this._defaultHeaders),
-			body: JSON.stringify({ name, about }),
+			// body: JSON.stringify({ name, about }),
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
 				console.error('Ошибка! Ошибка при Добавлении новых данных о пользователе');
+				console.error(err);
 			})
 	}
 
@@ -176,12 +180,12 @@ class Api {
 		return fetch(this._userAvatarUrl, {
       // credentials: 'include',
 			method: 'PATCH',
-			// headers: this._headers,
+			headers: this._headers,
       // headers: {
       //   'Content-Type': 'application/json',
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },
-      headers: this._injectAuth(this._defaultHeaders),
+      // headers: this._injectAuth(this._defaultHeaders),
 			body: JSON.stringify({avatar:link}),
 		})
 			.then(this._checkResponse)
@@ -191,10 +195,9 @@ class Api {
 	}
 }
 
-// console.log(`http://localhost:3000`);
 const api = new Api({
-  url: 'https://api.mmm.nomoredomainsrocks.ru',
-  // url: 'http://localhost:3000'
+  // url: 'https://api.mmm.nomoredomainsrocks.ru',
+  url: 'http://localhost:3000'
 });
 
 export default api;

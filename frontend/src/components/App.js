@@ -109,10 +109,10 @@ function App() {
 
 	function handleCardLike(card) {
 		// Снова проверяем, есть ли уже лайк на этой карточке
-		const isLiked = card.likes.some(i => i._id === currentUser._id);
+		const isLiked = card.likes.some(i => i === currentUser._id);
 
 		// Отправляем запрос в API и получаем обновлённые данные карточки
-		api.toggleLike(card._id, isLiked)
+		api.toggleLike(card, isLiked)
 			.then((newCard) => {
 				setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
 			})
@@ -140,30 +140,31 @@ function App() {
 				navigate('/');
 			})
 			.catch(err => {
+        console.err(`front> >>> APP.js >>> handleRegister()`);
 				console.error(err);
 			});
 	}
 
-	const tockenCheck = () => {
-		const jwt = localStorage.getItem('jwt');
-    console.log(`jwt =  ${jwt}` );
+	// const tockenCheck = () => {
+	// 	const jwt = localStorage.getItem('jwt');
+  //   console.log(`jwt =  ${jwt}` );
 
-		if (jwt) {
-			auth.checkToken(jwt)
-				.then(user => {
-          console.log(user);
+	// 	if (jwt) {
+	// 		auth.checkToken(jwt)
+	// 			.then(user => {
+  //         console.log(user);
 
-					setEmail(user.data.email);
+	// 				setEmail(user.data.email);
 
-					handleLogin(user);
+	// 				handleLogin(user);
 
-					navigate('/');
-				})
-				.catch((err) => {
-					console.error(err);
-				});
-		}
-	}
+	// 				navigate('/');
+	// 			})
+	// 			.catch((err) => {
+  //         console.err(`front> >>> APP.js >>> tockenCheck()`);
+	// 			});
+	// 	}
+	// }
 
   // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
   // if ( loggedIn){
@@ -180,15 +181,34 @@ function App() {
 
   // }
 
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('jwt')) {
+  //     auth.checkToken(localStorage.getItem('jwt'))
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true)
+  //           setEmail(res.data.email);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(`front> >>> APP.js >>> useEffect`);
+  //         console.error(err);
+  //       });
+  //   }
+  // });
+
+
   useEffect(() => {
     const token = localStorage.getItem('jwt');
-    console.log(`token =  ${token}`);
+    // console.log(`token =  ${token}`);
 
     if (token) {
       auth.checkToken(token)
         .then(user => {
-          console.log(`user = ${user}`);
-          console.log(`user.data.email = ${user.data.email}`);
+          // console.log(`user =`);
+          // console.log(user);
+          // console.log(`user.data.email = ${user.data.email}`);
           // api.setToken(token);
 
           setLoggedIn(true);
@@ -200,13 +220,10 @@ function App() {
           .then(([info, cards]) => {
 
               if (token) {
-                console.log('info', info);
-                console.log('info.data =', info.data);
-
-                handleUpdateUser(info);
-
-                console.log('cards =>');
-                console.log(cards);
+                // console.log(info);
+                // handleUpdateUser(user);
+                setEmail(info.email);
+                setCurrentUser(info);
 
                 if (cards.length ){
                   setCards(cards);
@@ -224,12 +241,13 @@ function App() {
               //   .catch(err => console.error(err));
 
             })
-            .catch((err) => console.log(`Ошибка promise.all: ${err.status}`));
+            .catch((err) => console.log(`Ошибка promise.all: ${err}`));
 
           navigate('/');
 
         })
         .catch((err) => {
+          console.error(`front> >>> APP.js >>> useEffect`);
           console.error(err);
         });
     }
