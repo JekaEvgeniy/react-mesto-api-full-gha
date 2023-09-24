@@ -200,12 +200,16 @@ function App() {
           .then(([info, cards]) => {
 
               if (token) {
-                console.log(`info = ${info}`);
-                console.log(`info.data = ${info.data}`);
+                console.log('info', info);
+                console.log('info.data =', info.data);
+
                 setCurrentUser(info.data);
 
-                console.log(`cards = ${cards}`);
-                console.log(`cards.data = ${cards.data}`);
+                console.log('cards =>');
+                console.log(cards);
+
+                console.log(`cards.data ===>`);
+                console.log(cards.data);
                 setCards(cards.data);
               }
 
