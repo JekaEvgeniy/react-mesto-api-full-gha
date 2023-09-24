@@ -10,8 +10,8 @@ const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const login = (req, res) => {
-  // console.log('POST /login');
+const login = (req, res, next) => {
+  console.log('POST /login');
   if (!req.body) {
     throw new ForbiddenError('Неправильный логин/пароль');
   }
@@ -19,54 +19,24 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   if (!email && !password) {
-    // return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
     next(new BadRequestError('Поля email и password обязательны для заполнения'));
   }
 
-  // return User.findUserByCredentials(email, password)
-  //   .then((user) => {
-  //     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-  //     // res.send({ data: user.toJSON() }); // .send(user);
-  //     res.send({ token });
-  //   })
-  //   .catch((err) => {
-  //     console.error('>>> login.js ERROR');
-  //     console.error(err);
-  //     next(err);
-  //   });
-
-  return User.findOne({ email })
-    .select('+password')
-    .orFail(() => new Error('Пользователь не найден'))
-
+  return User.findUserByCredentials(email, password)
     .then((user) => {
-      bcrypt.compare(String(password), user.password)
-        .then((isValidUser) => {
-          if (isValidUser) {
-            const token = jwt.sign(
-              { _id: user._id },
-              NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code',
-              { expiresIn: '1d' },
-            );
+      // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
 
-            res.cookie('jwt', token, {
-              maxAge: 360000 * 24 * 1,
-              httpOnly: true,
-              sameSite: true,
-            }).send({ data: user.toJSON() }); // .send(user);
-          } else {
-            // С throw Postman Не вываливает сообщение о ошибках. >>> Could not get response
-            // next(new ForbiddenError('Неправильный логин/пароль'));
-            throw new ForbiddenError('Неправильный логин/пароль');
-          }
-        });
+      console.log(`token = ${token}`);
+
+      res.send({ token });
     })
     .catch((err) => {
-      next(err);
+      next(err)
     });
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   // console.log('POST /signup >>> users.js > createUser');
 
   if (!req.body) {
@@ -80,38 +50,34 @@ const createUser = (req, res) => {
     next(new BadRequestError('Поля email и password обязательны для заполнения'));
   }
 
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
-      }
+  // User.findOne({ email })
+  //   .then((user) => {
+  //     if (user) {
+  //       next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
+  //     }
+  //   });
 
-      bcrypt.hash(String(req.body.password), 10)
-        .then((hash) => {
-          User.create({
-            name, about, avatar, email, password: hash,
-          })
-            .then(() => {
-              res.status(codeSuccess.created).send({
-                data: {
-                  name, about, avatar, email,
-                },
-              });
-            })
-            .catch((err) => {
-              if (err.name === 'ValidationError') {
-                next(new BadRequestError('Введены некорректные данные'));
-              }
-              if (err.code === 11000) {
-                next(new ConflictError('Пользователь с таким email уже существует'));
-              }
-              next(err);
-            });
+  bcrypt.hash(String(req.body.password), 10)
+    .then((hash) => {
+      User.create({
+        name, about, avatar, email, password: hash,
+      })
+        .then((data) => {
+          res.status(codeSuccess.created).send(data);
+        })
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            next(new BadRequestError('Введены некорректные данные'));
+          }
+          if (err.code === 11000) {
+            next(new ConflictError('Пользователь с таким email уже существует'));
+          }
+          next(err);
         });
     });
 };
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   // console.log('GET /users');
   // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
@@ -122,7 +88,7 @@ const getUsers = (req, res) => {
     });
 };
 
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
@@ -130,8 +96,6 @@ const getCurrentUser = (req, res) => {
     .then((user) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
-      } else {
-        next(err);
       }
     })
     .catch((err) => {
@@ -145,7 +109,7 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-const getUserById = (req, res) => {
+const getUserById = (req, res, next) => {
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('Not Found');
@@ -170,7 +134,7 @@ const getUserById = (req, res) => {
     });
 };
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
@@ -182,7 +146,7 @@ const updateUser = (req, res) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
       } else {
-        throw NotFoundError('Пользователь с указанным _id не найден');
+        next(new NotFoundError('Пользователь с указанным _id не найден'));
       }
     })
     .catch((err) => {
@@ -194,7 +158,7 @@ const updateUser = (req, res) => {
     });
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(
@@ -206,7 +170,7 @@ const updateAvatar = (req, res) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
       } else {
-        throw NotFoundError('Пользователь с указанным _id не найден');
+        next(new NotFoundError('Пользователь с указанным _id не найден'));
       }
     })
     .catch((err) => {

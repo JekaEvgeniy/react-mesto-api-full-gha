@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../utils/Api';
 import * as auth from '../utils/Auth';
 
 function Login({ handleLogin, handleInfoTooltip }) {
@@ -27,11 +28,12 @@ function Login({ handleLogin, handleInfoTooltip }) {
     console.log(`password = ${password}`);
 
 
-		auth.authorize({ email, password })
+    auth.authorize({ email, password })
 			.then(data => {
         console.log(`handleSubmit >>> data.token = ${data.token}`);
 				if (data.token) {
 					localStorage.setItem('jwt', data.token);
+          api.setToken(data.token);
 
 					handleLogin();
 

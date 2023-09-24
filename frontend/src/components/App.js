@@ -39,30 +39,12 @@ function App() {
 	const [email, setEmail] = useState(null);
 
 	const navigate = useNavigate();
+
+ // const history = useHistory();
+
 	// https://reactrouter.com/en/main/hooks/use-navigate
 	// ERROR useNavigate() may be used only in the context of a <Router> component.
 	// https://bobbyhadz.com/blog/react-usenavigate-may-be-used-only-in-context-of-router
-
-	useEffect(() => {
-
-		if (! loggedIn ) {
-			return;
-		}
-
-		api.getUserInfo()
-			.then(setCurrentUser)
-			.catch(err => console.error(err));
-
-		api.getCards()
-			.then(res => {
-				setCards(res);
-			})
-			.catch(err => console.error(err));
-
-	}, [loggedIn]);
-
-
-
 
 	const handleInfoTooltip = (status) => {
 		setIsInfoTooltip(status);
@@ -167,25 +149,66 @@ function App() {
     console.log(`jwt =  ${jwt}` );
 
 		if (jwt) {
-			// auth.getContent(jwt)
-			// 	.then(user => {
-      //     console.log(user);
+			auth.getContent(jwt)
+				.then(user => {
+          console.log(user);
 
-			// 		setEmail(user.data.email);
+					setEmail(user.data.email);
 
-			// 		handleLogin(user);
+					handleLogin(user);
 
-			// 		navigate('/');
-			// 	})
-			// 	.catch((err) => {
-			// 		console.error(err);
-			// 	});
+					navigate('/');
+				})
+				.catch((err) => {
+					console.error(err);
+				});
 		}
 	}
 
-	useEffect(() => {
-		tockenCheck();
-	}, []);
+  useEffect(() => {
+    // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
+    if ( loggedIn){
+
+      api.getUserInfo()
+        .then(setCurrentUser)
+        .catch(err => console.error(err));
+
+      api.getCards()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(err => console.error(err));
+
+    }
+
+
+  }, [loggedIn]);
+
+
+  useEffect(() => {
+    // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
+
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      console.log(`token = ${token}`);
+
+      auth.getContent()
+        .then(user => {
+          console.log(user);
+          api.setToken(token);
+
+          // setEmail(user.data.email);
+          setLoggedIn(true);
+          handleLogin(user);
+
+          navigate('/');
+        })
+        .catch((err) => {
+          localStorage.removeItem('jwt'); console.log(`localStorage.removeItem('jwt')`);
+          console.error(err);
+        });
+    }
+  }, [navigate]);
 
 
 	return (

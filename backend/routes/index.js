@@ -50,7 +50,7 @@ router.use('/users', userRoutes);
 router.use('/cards', cardRoutes);
 router.use('/me', getCurrentUser);
 
-router.use('*', (req, res) => {
+router.use('*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемой страницы нет!'));
 });
 
