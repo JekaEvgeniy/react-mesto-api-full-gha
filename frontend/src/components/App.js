@@ -165,22 +165,22 @@ function App() {
 		}
 	}
 
+  // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
+  // if ( loggedIn){
+
+  //   api.getUserInfo()
+  //     .then(setCurrentUser)
+  //     .catch(err => console.error(err));
+
+  //   api.getCards()
+  //     .then(res => {
+  //       setCards(res);
+  //     })
+  //     .catch(err => console.error(err));
+
+  // }
+
   useEffect(() => {
-    // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
-    // if ( loggedIn){
-
-    //   api.getUserInfo()
-    //     .then(setCurrentUser)
-    //     .catch(err => console.error(err));
-
-    //   api.getCards()
-    //     .then(res => {
-    //       setCards(res);
-    //     })
-    //     .catch(err => console.error(err));
-
-    // }
-
     const token = localStorage.getItem('jwt');
     console.log(`token =  ${token}`);
 
@@ -203,23 +203,44 @@ function App() {
     }
   }, [loggedIn]);
 
-
   useEffect(() => {
     console.log(`loggedIn ===> ${loggedIn};`);
+    const token = localStorage.getItem('jwt');
 
-    if (loggedIn){
-      api.getUserInfo()
-        .then(setCurrentUser)
-        .catch(err => console.error(err));
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([info, cards]) => {
 
-      api.getCards()
-        .then(res => {
-          setCards(res);
-        })
-        .catch(err => console.error(err));
-    }
+        // if (token) {
+        //   setCurrentUser(info.data);
+        //   setCards(cards.data);
+        // }
 
-  }, [navigate]);
+        api.getUserInfo()
+          .then(setCurrentUser)
+          .catch(err => console.error(err));
+
+        api.getCards()
+          .then(res => {
+            setCards(res);
+          })
+          .catch(err => console.error(err));
+
+      })
+      .catch((err) => console.log(`Ошибка promise.all: ${err.status}`));
+
+    // if (loggedIn){
+    //   api.getUserInfo()
+    //     .then(setCurrentUser)
+    //     .catch(err => console.error(err));
+
+    //   api.getCards()
+    //     .then(res => {
+    //       setCards(res);
+    //     })
+    //     .catch(err => console.error(err));
+    // }
+
+  }, [navigate, loggedIn]);
 
 
 /*
