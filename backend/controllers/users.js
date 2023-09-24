@@ -63,7 +63,12 @@ const createUser = (req, res, next) => {
         name, about, avatar, email, password: hash,
       })
         .then((data) => {
-          res.status(codeSuccess.created).send(data);
+          // res.status(codeSuccess.created).send(data);
+          res.status(codeSuccess.created).send({
+            data: {
+              name, about, avatar, email,
+            },
+          });
         })
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -95,7 +100,8 @@ const getCurrentUser = (req, res, next) => {
     })
     .then((user) => {
       if (user) {
-        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send(user);
+        res.status(codeSuccess.ok).send({ data: user });
       }
     })
     .catch((err) => {
@@ -118,7 +124,8 @@ const getUserById = (req, res, next) => {
     })
     .then((user) => {
       if (user) {
-        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send(user);
+        res.status(codeSuccess.ok).send({ data: user });
       } else {
         throw NotFoundError('Пользователь с указанным _id не найден');
       }
@@ -144,7 +151,8 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (user) {
-        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send(user);
+        res.status(codeSuccess.ok).send({ data: user });
       } else {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
       }
@@ -168,7 +176,8 @@ const updateAvatar = (req, res, next) => {
   )
     .then((user) => {
       if (user) {
-        res.status(codeSuccess.ok).send(user);
+        // res.status(codeSuccess.ok).send(user);
+        res.status(codeSuccess.ok).send({ data: user });
       } else {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
       }
