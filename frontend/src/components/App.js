@@ -32,7 +32,7 @@ function App() {
 
 	const [selectedCard, setSelectedCard] = useState(null);
 
-	const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: '' });
 
 	const [cards, setCards] = useState([]);
 
@@ -76,6 +76,7 @@ function App() {
 	}
 
 	function handleUpdateUser(userData) {
+    console.log(userData);
 		api.setUserInfo(userData)
 			.then((updateUserData) => {
 				setCurrentUser(updateUserData);
@@ -221,14 +222,18 @@ function App() {
 
               if (token) {
                 // console.log(info);
-                // handleUpdateUser(user);
+
                 setEmail(info.email);
-                setCurrentUser(info);
+                console.log(`setCurrentUser ===> `);
+                setCurrentUser(user);
+
+                // handleUpdateUser(user);
 
                 if (cards.length ){
                   setCards(cards);
                 }
               }
+
 
               // api.getUserInfo()
               //   .then(setCurrentUser)

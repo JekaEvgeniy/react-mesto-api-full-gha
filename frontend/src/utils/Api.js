@@ -148,25 +148,28 @@ class Api {
 			})
 	}
 
-	setUserInfo(data) {
+  setUserInfo({ name, about }) {
 
-    console.log(`setUserInfo()`);
-    console.log(data);
+    console.log(`>>> setUserInfo()`);
+    // console.log(data); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
+    console.log(name); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
+    console.log(about); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
 
-		return fetch(this._userUrl, {
+    return fetch(`${this._url}/users/me`, {
       // credentials: 'include',
 			method: 'PATCH',
       // headers: this._headers,
-      // headers: {
-      //   'Content-Type': 'application/json',
-      //   authorization: `Bearer ${localStorage.getItem('jwt')}`
-      // },
-      headers: this._injectAuth(this._defaultHeaders),
-			// body: JSON.stringify({ name, about }),
-      body: JSON.stringify({
-        name: data.name,
-        about: data.about
-      }),
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
+      // headers: this._injectAuth(this._defaultHeaders),
+			// body: JSON.stringify( data ),
+			body: JSON.stringify({ name, about }),
+      // body: JSON.stringify({
+      //   name: data.name,
+      //   about: data.about
+      // }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
