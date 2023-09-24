@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.121.100
+IP 158.160.121.100
 
 Frontend:
 * [https://mmm.nomoredomainsrocks.ru/](https://mmm.nomoredomainsrocks.ru/)

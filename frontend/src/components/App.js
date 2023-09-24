@@ -96,7 +96,7 @@ function App() {
 
 		api.setUserAvatar(data)
 			.then((updateData) => {
-        console.log('>>> handleUpdateAvatar', updateData.data.avatar)
+        // console.log('>>> handleUpdateAvatar', updateData.data.avatar)
         setCurrentUser({ ...updateData.data, avatar: updateData.data.avatar });
 
 				closeAllPopups();
@@ -129,7 +129,7 @@ function App() {
 	}
 
 	function handleCardDelete(card) {
-    console.log('card>>>', card._id);
+    // console.log('card>>>', card._id);
 		api.removeCard(card._id)
 			.then(() => {
 				setCards((state) => state.filter((c) => c._id !== card._id));
@@ -171,7 +171,7 @@ function App() {
 
               if (token) {
                 setEmail(info.email);
-                console.log(`setCurrentUser ===> `);
+                // console.log(`setCurrentUser ===> `);
                 setCurrentUser(user);
                 // handleUpdateUser(user);
                 if (cards.length ){
