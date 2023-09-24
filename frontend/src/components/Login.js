@@ -33,7 +33,7 @@ function Login({ handleLogin, handleInfoTooltip }) {
         console.log(`handleSubmit >>> data.token = ${data.token}`);
 				if (data.token) {
 					localStorage.setItem('jwt', data.token);
-          api.setToken(data.token);
+          // api.setToken(data.token);
 
 					handleLogin();
 

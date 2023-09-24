@@ -11,7 +11,7 @@ const checkResponse = (res) => {
 	return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = (email, password) => {
+export const register = ({ email, password }) => {
 	return fetch(`${BASE_URL}/signup`, {
 		method: 'POST',
 		headers: {
@@ -23,7 +23,7 @@ export const register = (email, password) => {
 	.then(checkResponse);
 };
 
-export const authorize = ({email, password}) => {
+export const authorize = ({ email, password }) => {
   console.log(`email = ${email}`);
   console.log(`password = ${password}`);
 
@@ -45,7 +45,7 @@ export const authorize = ({email, password}) => {
   });
 };
 
-export const getContent = () => {
+export const checkToken = () => {
   const token = localStorage.getItem('jwt');
 
 	return fetch(`${BASE_URL}/users/me`, {

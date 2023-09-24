@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate, useNavigate, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 import { ProtectedRoute } from './ProtectedRoute.js';
 
@@ -149,7 +149,7 @@ function App() {
     console.log(`jwt =  ${jwt}` );
 
 		if (jwt) {
-			auth.getContent(jwt)
+			auth.checkToken(jwt)
 				.then(user => {
           console.log(user);
 
@@ -167,7 +167,85 @@ function App() {
 
   useEffect(() => {
     // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
-    if ( loggedIn){
+    // if ( loggedIn){
+
+    //   api.getUserInfo()
+    //     .then(setCurrentUser)
+    //     .catch(err => console.error(err));
+
+    //   api.getCards()
+    //     .then(res => {
+    //       setCards(res);
+    //     })
+    //     .catch(err => console.error(err));
+
+    // }
+
+    const token = localStorage.getItem('jwt');
+    console.log(`token =  ${token}`);
+
+    if (token) {
+      auth.checkToken(token)
+        .then(user => {
+          console.log(`user = ${user}`);
+          console.log(`user.data.email = ${user.data.email}`);
+          // api.setToken(token);
+
+          setLoggedIn(true);
+          setEmail(user.data.email);
+          handleLogin(user);
+          navigate('/');
+        })
+        .catch((err) => {
+          console.error('useEffect =>>> Ошибка проверки токена!');
+          console.error(err);
+        });
+    }
+  }, [loggedIn]);
+
+
+  useEffect(() => {
+    console.log(`loggedIn ===> ${loggedIn};`);
+
+    if (loggedIn){
+      api.getUserInfo()
+        .then(setCurrentUser)
+        .catch(err => console.error(err));
+
+      api.getCards()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(err => console.error(err));
+    }
+
+  }, [navigate]);
+
+
+/*
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      console.log(`token = ${token}`);
+
+
+      auth.checkToken(token)
+        .then(user => {
+          console.log(user);
+
+          api.setToken(token);
+
+          setEmail(user.data.email);
+          setLoggedIn(true);
+          handleLogin(user);
+
+          navigate('/');
+        })
+        .catch((err) => {
+          setLoggedIn(false);
+          //localStorage.removeItem('jwt'); console.log(`localStorage.removeItem('jwt')`);
+          console.error(err);
+        });
 
       api.getUserInfo()
         .then(setCurrentUser)
@@ -179,38 +257,13 @@ function App() {
         })
         .catch(err => console.error(err));
 
+
+    } else {
+
     }
+  }, [navigate, loggedIn]);
 
-
-  }, [loggedIn]);
-
-
-  useEffect(() => {
-    // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
-
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      console.log(`token = ${token}`);
-
-      auth.getContent()
-        .then(user => {
-          console.log(user);
-          api.setToken(token);
-
-          // setEmail(user.data.email);
-          setLoggedIn(true);
-          handleLogin(user);
-
-          navigate('/');
-        })
-        .catch((err) => {
-          localStorage.removeItem('jwt'); console.log(`localStorage.removeItem('jwt')`);
-          console.error(err);
-        });
-    }
-  }, [navigate]);
-
-
+*/
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
 			<div className="page">
