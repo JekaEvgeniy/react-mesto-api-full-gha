@@ -27,7 +27,7 @@ router.post(
       email: Joi.string().email().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().regex(/^(http|https):\/\/(?:www\.)?[a-zA-Z0-9._~\-:?#[\]@!$&'()*+,/;=]{2,256}\.[a-zA-Z0-9./?#-]{2,}$/),
+      avatar: Joi.string().regex(/https?:\/\/(www)?[-0-9a-z.]+(\/[0-9a-z\-._~:/?#[\]@!$&'()*+,;=]+)?#?$/i),
     }),
   }),
   createUser,

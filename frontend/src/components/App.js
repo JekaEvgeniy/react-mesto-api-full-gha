@@ -32,7 +32,7 @@ function App() {
 
 	const [selectedCard, setSelectedCard] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: '' });
+  const [currentUser, setCurrentUser] = useState({});
 
 	const [cards, setCards] = useState([]);
 
@@ -76,10 +76,11 @@ function App() {
 	}
 
 	function handleUpdateUser(userData) {
-    console.log(userData);
+    // console.log(userData);
 		api.setUserInfo(userData)
 			.then((updateUserData) => {
-				setCurrentUser(updateUserData);
+
+				setCurrentUser(updateUserData.data);
 
 				closeAllPopups();
 			})
@@ -87,14 +88,38 @@ function App() {
 	}
 
 	function handleUpdateAvatar(data) {
+    // console.log('handleAvataer', data);
+    /*
+    https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
+    https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
+    https://plus.unsplash.com/premium_photo-1682036382992-c39bdcbdbc5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
+    https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
+    https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
+
+    */
 		api.setUserAvatar(data)
 			.then((updateData) => {
-				setCurrentUser(updateData);
+        console.log('>>> handleUpdateAvatar', updateData.data.avatar)
+        setCurrentUser({ ...updateData.data, avatar: updateData.data.avatar });
 
 				closeAllPopups();
 			})
 			.catch(err => console.error(err));
 	}
+
+	// function handleUpdateAvatar(data) {
+  //   console.log(data); // {avatar: 'https://plus.unsplash.com/premium_photo-1682036382…0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60'}
+
+	// 	api.setUserAvatar(data)
+	// 		.then((updateData) => {
+  //       console.log('>>> handleUpdateAvatar', data)
+  //       // setCurrentUser(updateData.avatar);
+  //       setCurrentUser({ ...data});
+
+	// 			closeAllPopups();
+	// 		})
+	// 		.catch(err => console.error(err));
+	// }
 
 	function handleAddNewCard(data) {
 		api.addNewCard(data)

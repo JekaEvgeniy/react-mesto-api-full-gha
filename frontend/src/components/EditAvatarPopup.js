@@ -13,7 +13,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-
+    console.log('ref.current.value', ref.current.value);
 		onUpdateAvatar({
 			avatar: ref.current.value,
 		});

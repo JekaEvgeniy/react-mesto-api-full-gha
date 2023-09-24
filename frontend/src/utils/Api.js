@@ -8,7 +8,7 @@ class Api {
 		this._cardLikes = this._url + '/cards/cardId/likes';
 
 		this._userUrl = this._url + '/users/me';
-		this._userAvatarUrl = this._url + '/users/me/avatar';
+    this._userAvatarUrl = this._url + '/users/me/avatar';
 
     this._defaultHeaders = { 'Content-Type': 'application/json' };
 	}
@@ -150,10 +150,10 @@ class Api {
 
   setUserInfo({ name, about }) {
 
-    console.log(`>>> setUserInfo()`);
+    // console.log(`>>> setUserInfo()`);
     // console.log(data); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
-    console.log(name); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
-    console.log(about); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
+    // console.log(name); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
+    // console.log(about); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
 
     return fetch(`${this._url}/users/me`, {
       // credentials: 'include',
@@ -178,22 +178,27 @@ class Api {
 			})
 	}
 
-	setUserAvatar(link) {
+	setUserAvatar(data) {
+    console.log('data', data);
+    const url = `${this._url}/users/me/avatar`;
 
-		return fetch(this._userAvatarUrl, {
+    return fetch(url, {
       // credentials: 'include',
 			method: 'PATCH',
-			headers: this._headers,
+			// headers: this._headers,
       // headers: {
       //   'Content-Type': 'application/json',
       //   authorization: `Bearer ${localStorage.getItem('jwt')}`
       // },
-      // headers: this._injectAuth(this._defaultHeaders),
-			body: JSON.stringify({avatar:link}),
+      headers: this._injectAuth(this._defaultHeaders),
+			body: JSON.stringify({
+        avatar: data.avatar
+      }),
+      // body: JSON.stringify({ avatar }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
-				console.error('Ошибка! Ошибка при Добавлении новых данных о пользователе');
+				console.error('Ошибка! Ошибка при Добавлении новых данных о пользователе', err);
 			})
 	}
 }
