@@ -192,9 +192,33 @@ function App() {
           // api.setToken(token);
 
           setLoggedIn(true);
-          setEmail(user.data.email);
           handleLogin(user);
+          // setEmail(user.data.email);
+
+          const token = localStorage.getItem('jwt');
+          Promise.all([api.getUserInfo(), api.getCards()])
+          .then(([info, cards]) => {
+
+              if (token) {
+                setCurrentUser(info.data);
+                setCards(cards.data);
+              }
+
+              // api.getUserInfo()
+              //   .then(setCurrentUser)
+              //   .catch(err => console.error(err));
+
+              // api.getCards()
+              //   .then(res => {
+              //     setCards(res);
+              //   })
+              //   .catch(err => console.error(err));
+
+            })
+            .catch((err) => console.log(`Ошибка promise.all: ${err.status}`));
+
           navigate('/');
+
         })
         .catch((err) => {
           console.error('useEffect =>>> Ошибка проверки токена!');
@@ -205,42 +229,20 @@ function App() {
 
   useEffect(() => {
     console.log(`loggedIn ===> ${loggedIn};`);
-    const token = localStorage.getItem('jwt');
 
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([info, cards]) => {
+    if (loggedIn){
+      api.getUserInfo()
+        .then(setCurrentUser)
+        .catch(err => console.error(err));
 
-        // if (token) {
-        //   setCurrentUser(info.data);
-        //   setCards(cards.data);
-        // }
+      api.getCards()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(err => console.error(err));
+    }
 
-        api.getUserInfo()
-          .then(setCurrentUser)
-          .catch(err => console.error(err));
-
-        api.getCards()
-          .then(res => {
-            setCards(res);
-          })
-          .catch(err => console.error(err));
-
-      })
-      .catch((err) => console.log(`Ошибка promise.all: ${err.status}`));
-
-    // if (loggedIn){
-    //   api.getUserInfo()
-    //     .then(setCurrentUser)
-    //     .catch(err => console.error(err));
-
-    //   api.getCards()
-    //     .then(res => {
-    //       setCards(res);
-    //     })
-    //     .catch(err => console.error(err));
-    // }
-
-  }, [navigate, loggedIn]);
+  }, [navigate]);
 
 
 /*
