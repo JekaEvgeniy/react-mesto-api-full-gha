@@ -165,7 +165,7 @@ function App() {
             setEmail(info.email);
             // console.log(`setCurrentUser ===> `);
             setCurrentUser(info);
-            // handleUpdateUser(user);
+            handleUpdateUser(info);
             if (cards.length) {
               setCards(cards);
             }
