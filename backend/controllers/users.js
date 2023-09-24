@@ -10,78 +10,6 @@ const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const login = (req, res, next) => {
-  console.log('POST /login');
-  if (!req.body) {
-    throw new ForbiddenError('Неправильный логин/пароль');
-  }
-
-  const { email, password } = req.body;
-
-  if (!email && !password) {
-    next(new BadRequestError('Поля email и password обязательны для заполнения'));
-  }
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-
-      console.log(`token = ${token}`);
-
-      res.send({ token });
-    })
-    .catch((err) => {
-      next(err)
-    });
-};
-
-const createUser = (req, res, next) => {
-  // console.log('POST /signup >>> users.js > createUser');
-
-  if (!req.body) {
-    next(new BadRequestError('Введены некорректные данные'));
-  }
-
-  const {
-    name, about, avatar, email, password,
-  } = req.body;
-  if (!email && !password) {
-    next(new BadRequestError('Поля email и password обязательны для заполнения'));
-  }
-
-  // User.findOne({ email })
-  //   .then((user) => {
-  //     if (user) {
-  //       next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
-  //     }
-  //   });
-
-  bcrypt.hash(String(req.body.password), 10)
-    .then((hash) => {
-      User.create({
-        name, about, avatar, email, password: hash,
-      })
-        .then((data) => {
-          // res.status(codeSuccess.created).send(data);
-          res.status(codeSuccess.created).send({
-            data: {
-              name, about, avatar, email,
-            },
-          });
-        })
-        .catch((err) => {
-          if (err.name === 'ValidationError') {
-            next(new BadRequestError('Введены некорректные данные'));
-          }
-          if (err.code === 11000) {
-            next(new ConflictError('Пользователь с таким email уже существует'));
-          }
-          next(err);
-        });
-    });
-};
-
 const getUsers = (req, res, next) => {
   // console.log('GET /users');
   // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
@@ -145,6 +73,52 @@ const getUserById = (req, res, next) => {
     });
 };
 
+const createUser = (req, res, next) => {
+  // console.log('POST /signup >>> users.js > createUser');
+
+  if (!req.body) {
+    next(new BadRequestError('Введены некорректные данные'));
+  }
+
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+  if (!email && !password) {
+    next(new BadRequestError('Поля email и password обязательны для заполнения'));
+  }
+
+  // User.findOne({ email })
+  //   .then((user) => {
+  //     if (user) {
+  //       next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
+  //     }
+  //   });
+
+  bcrypt.hash(String(req.body.password), 10)
+    .then((hash) => {
+      User.create({
+        name, about, avatar, email, password: hash,
+      })
+        .then((data) => {
+          // res.status(codeSuccess.created).send(data);
+          res.status(codeSuccess.created).send({
+            data: {
+              name, about, avatar, email,
+            },
+          });
+        })
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            next(new BadRequestError('Введены некорректные данные'));
+          }
+          if (err.code === 11000) {
+            next(new ConflictError('Пользователь с таким email уже существует'));
+          }
+          next(err);
+        });
+    });
+};
+
 const updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
@@ -195,6 +169,32 @@ const updateAvatar = (req, res, next) => {
     });
 };
 
+const login = (req, res, next) => {
+  console.log('POST /login');
+  if (!req.body) {
+    throw new ForbiddenError('Неправильный логин/пароль');
+  }
+
+  const { email, password } = req.body;
+
+  if (!email && !password) {
+    next(new BadRequestError('Поля email и password обязательны для заполнения'));
+  }
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+
+      console.log(`token = ${token}`);
+
+      res.send({ token });
+    })
+    .catch((err) => {
+      next(err)
+    });
+};
+
 module.exports = {
-  login, getUsers, getCurrentUser, getUserById, createUser, updateUser, updateAvatar,
+  getUsers, getUserById, createUser, updateUser, updateAvatar, login, getCurrentUser,
 };

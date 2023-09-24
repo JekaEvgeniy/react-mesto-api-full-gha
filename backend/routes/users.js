@@ -5,6 +5,9 @@ const {
 } = require('../controllers/users');
 
 router.get('/', getUsers); // Пути суммируются /users/users см. внимательно index.js
+
+router.get('/me', getCurrentUser);
+
 router.get(
   '/:id',
   celebrate({
@@ -14,10 +17,6 @@ router.get(
   }),
   getUserById,
 );
-router.get('/me', getCurrentUser);
-
-router.post('/', createUser);
-router.post('/signup', createUser);
 
 router.patch(
   '/me',
@@ -29,6 +28,11 @@ router.patch(
   }),
   updateUser,
 );
+
+router.post('/', createUser);
+
+router.post('/signup', createUser);
+
 router.patch(
   '/me/avatar',
   celebrate({
