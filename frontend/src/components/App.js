@@ -230,29 +230,42 @@ function App() {
 
         })
         .catch((err) => {
-          console.error('useEffect =>>> Ошибка проверки токена!');
           console.error(err);
         });
     }
-  }, [loggedIn]);
+  }, [loggedIn, navigate]);
 
-  useEffect(() => {
-    console.log(`loggedIn ===> ${loggedIn};`);
+  // useEffect(() => {
+  //   console.log(`loggedIn ===> ${loggedIn};`);
 
-    if (loggedIn){
-      api.getUserInfo()
-        .then(setCurrentUser)
-        .catch(err => console.error(err));
+  //   if (loggedIn){
+  //     // api.getUserInfo()
+  //     //   .then(setCurrentUser)
+  //     //   .catch(err => console.error(err));
 
-      api.getCards()
-        .then(res => {
-          console.log(res);
-          setCards(res);
-        })
-        .catch(err => console.error(err));
-    }
+  //     // api.getCards()
+  //     //   .then(res => {
+  //     //     console.log(res);
+  //     //     setCards(res);
+  //     //   })
+  //     //   .catch(err => console.error(err));
 
-  }, [navigate]);
+  //     Promise.all([api.getUserInfo(), api.getCards()])
+  //       .then(([info, cards]) => {
+
+  //         setCurrentUser(info);
+
+  //         if (cards.length) {
+  //           setCards(cards);
+  //         }
+
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+
+  // }, [navigate]);
 
 
 /*

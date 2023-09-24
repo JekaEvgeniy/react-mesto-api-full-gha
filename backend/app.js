@@ -23,7 +23,7 @@ app.use(cors({
     'http://mmm.nomoredomainsrocks.ru',
     'http://localhost:3000',
   ],
-  // credentials: true,
+  credentials: true,
   // maxAge: 60, // sec
 }));
 

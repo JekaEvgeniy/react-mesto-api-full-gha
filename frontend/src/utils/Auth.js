@@ -50,7 +50,7 @@ export const checkToken = () => {
 
 	return fetch(`${BASE_URL}/users/me`, {
 		method: 'GET',
-    // credentials: 'include',
+    // credentials: 'include', // если true - ошибка CORS локально
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}`
