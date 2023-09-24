@@ -200,7 +200,12 @@ function App() {
           .then(([info, cards]) => {
 
               if (token) {
+                console.log(`info = ${info}`);
+                console.log(`info.data = ${info.data}`);
                 setCurrentUser(info.data);
+
+                console.log(`cards = ${cards}`);
+                console.log(`cards.data = ${cards.data}`);
                 setCards(cards.data);
               }
 
@@ -237,6 +242,7 @@ function App() {
 
       api.getCards()
         .then(res => {
+          console.log(res);
           setCards(res);
         })
         .catch(err => console.error(err));
