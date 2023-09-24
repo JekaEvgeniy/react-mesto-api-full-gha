@@ -116,6 +116,10 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
+  console.log(`getUserById >>> req >>>`);
+  console.log(req);
+  console.log(`getUserById <<< req <<<`);
+
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('Not Found');
