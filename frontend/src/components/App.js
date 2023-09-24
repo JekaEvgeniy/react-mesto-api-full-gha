@@ -203,14 +203,14 @@ function App() {
                 console.log('info', info);
                 console.log('info.data =', info.data);
 
-                setCurrentUser(info.data);
+                setCurrentUser(info);
 
                 console.log('cards =>');
                 console.log(cards);
 
-                console.log(`cards.data ===>`);
-                console.log(cards.data);
-                setCards(cards.data);
+                if (cards.length ){
+                  setCards(cards);
+                }
               }
 
               // api.getUserInfo()
