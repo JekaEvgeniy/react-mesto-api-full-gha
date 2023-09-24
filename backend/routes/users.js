@@ -6,17 +6,9 @@ const {
 
 router.get('/', getUsers); // Пути суммируются /users/users см. внимательно index.js
 
-router.get('/me', getCurrentUser);
+router.post('/', createUser);
 
-router.get(
-  '/:id',
-  celebrate({
-    params: Joi.object().keys({
-      id: Joi.string().length(24).hex().required(),
-    }),
-  }),
-  getUserById,
-);
+router.get('/me', getCurrentUser);
 
 router.patch(
   '/me',
@@ -29,8 +21,6 @@ router.patch(
   updateUser,
 );
 
-router.post('/', createUser);
-
 router.post('/signup', createUser);
 
 router.patch(
@@ -42,5 +32,17 @@ router.patch(
   }),
   updateAvatar,
 );
+
+
+router.get(
+  '/:id',
+  celebrate({
+    params: Joi.object().keys({
+      id: Joi.string().length(24).hex().required(),
+    }),
+  }),
+  getUserById,
+);
+
 
 module.exports = router;
