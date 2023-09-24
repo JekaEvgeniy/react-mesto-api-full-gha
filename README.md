@@ -10,13 +10,8 @@
 
 IP 158.160.121.100
 
-Frontend:
-* [https://mmm.nomoredomainsrocks.ru/](https://mmm.nomoredomainsrocks.ru/)
-* [http://mmm.nomoredomainsrocks.ru/](http://mmm.nomoredomainsrocks.ru/)
-
-Backend:
-* [http://api.mmm.nomoredomainsrocks.ru/](http://api.mmm.nomoredomainsrocks.ru/)
-* [https://api.mmm.nomoredomainsrocks.ru/](https://api.mmm.nomoredomainsrocks.ru/)
+Frontend https://mmm.nomoredomainsrocks.ru/
+Backend https://api.mmm.nomoredomainsrocks.ru/
 
 # Проект Mesto фронтенд + бэкенд
 

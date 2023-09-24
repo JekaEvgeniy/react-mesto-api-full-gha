@@ -1,4 +1,4 @@
-const { codeErrors, codeSuccess } = require('../vars/data');
+const { codeSuccess } = require('../vars/data');
 const Card = require('../models/card');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
