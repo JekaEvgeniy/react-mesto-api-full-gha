@@ -33,7 +33,6 @@ router.patch(
   updateAvatar,
 );
 
-
 router.get(
   '/:id',
   celebrate({
@@ -43,6 +42,5 @@ router.get(
   }),
   getUserById,
 );
-
 
 module.exports = router;

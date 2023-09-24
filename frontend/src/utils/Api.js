@@ -70,8 +70,10 @@ class Api {
 	}
 
 
-	removeCard(id) {
-		return fetch(`${this._cardsUrl}/${id}`, {
+	removeCard(data) {
+		// return fetch(`${this._cardsUrl}/${id}`, {
+    // return fetch(`${this._url}/cards/${data}`, {
+    return fetch(`${this._url}/cards/${data}/`, {
       // credentials: 'include',
 			method: 'DELETE',
 			// headers: this._headers,
@@ -82,12 +84,14 @@ class Api {
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
-				console.error('Ошибка! Ошибка удаления карточки');
+				console.error('Ошибка! Ошибка удаления карточки', err);
 			})
 	}
 
 
 	addLike(data) {
+    // console.log(`${this._url}/cards/${data._id}`);
+
     return fetch(`${this._url}/cards/${data._id}/likes`, {
       // credentials: 'include',
 			// headers: this._headers,
@@ -149,12 +153,6 @@ class Api {
 	}
 
   setUserInfo({ name, about }) {
-
-    // console.log(`>>> setUserInfo()`);
-    // console.log(data); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
-    // console.log(name); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
-    // console.log(about); // {name: 'Жак-Ив Кусто3', about: 'Исследовател3'}
-
     return fetch(`${this._url}/users/me`, {
       // credentials: 'include',
 			method: 'PATCH',
@@ -164,12 +162,7 @@ class Api {
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
       // headers: this._injectAuth(this._defaultHeaders),
-			// body: JSON.stringify( data ),
 			body: JSON.stringify({ name, about }),
-      // body: JSON.stringify({
-      //   name: data.name,
-      //   about: data.about
-      // }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -179,7 +172,6 @@ class Api {
 	}
 
 	setUserAvatar(data) {
-    console.log('data', data);
     const url = `${this._url}/users/me/avatar`;
 
     return fetch(url, {

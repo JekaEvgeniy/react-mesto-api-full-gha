@@ -146,6 +146,7 @@ function App() {
 	}
 
 	function handleCardDelete(card) {
+    console.log('card>>>', card._id);
 		api.removeCard(card._id)
 			.then(() => {
 				setCards((state) => state.filter((c) => c._id !== card._id));
