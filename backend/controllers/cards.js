@@ -6,8 +6,6 @@ const NotFoundError = require('../errors/NotFoundError');
 const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
-      console.log('>>>>>>> getCards');
-      console.log(cards);
       // res.send({ data: cards });
       res.send(cards);
     })

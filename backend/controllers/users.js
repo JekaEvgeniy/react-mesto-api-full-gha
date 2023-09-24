@@ -44,10 +44,6 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  console.log(`getUserById >>> req >>>`);
-  console.log(req);
-  console.log(`getUserById <<< req <<<`);
-
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('Not Found');
@@ -170,7 +166,7 @@ const updateAvatar = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  console.log('POST /login');
+  // console.log('POST /login');
   if (!req.body) {
     throw new ForbiddenError('Неправильный логин/пароль');
   }
@@ -185,9 +181,6 @@ const login = (req, res, next) => {
     .then((user) => {
       // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code', { expiresIn: '7d' });
-
-      console.log(`token = ${token}`);
-
       res.send({ token });
     })
     .catch((err) => {

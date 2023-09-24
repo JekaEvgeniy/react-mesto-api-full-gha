@@ -40,8 +40,6 @@ function App() {
 
 	const navigate = useNavigate();
 
- // const history = useHistory();
-
 	// https://reactrouter.com/en/main/hooks/use-navigate
 	// ERROR useNavigate() may be used only in the context of a <Router> component.
 	// https://bobbyhadz.com/blog/react-usenavigate-may-be-used-only-in-context-of-router
@@ -88,15 +86,14 @@ function App() {
 	}
 
 	function handleUpdateAvatar(data) {
-    // console.log('handleAvataer', data);
     /*
     https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
     https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
     https://plus.unsplash.com/premium_photo-1682036382992-c39bdcbdbc5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
     https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
     https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2F0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60
-
     */
+
 		api.setUserAvatar(data)
 			.then((updateData) => {
         console.log('>>> handleUpdateAvatar', updateData.data.avatar)
@@ -106,20 +103,6 @@ function App() {
 			})
 			.catch(err => console.error(err));
 	}
-
-	// function handleUpdateAvatar(data) {
-  //   console.log(data); // {avatar: 'https://plus.unsplash.com/premium_photo-1682036382…0fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60'}
-
-	// 	api.setUserAvatar(data)
-	// 		.then((updateData) => {
-  //       console.log('>>> handleUpdateAvatar', data)
-  //       // setCurrentUser(updateData.avatar);
-  //       setCurrentUser({ ...data});
-
-	// 			closeAllPopups();
-	// 		})
-	// 		.catch(err => console.error(err));
-	// }
 
 	function handleAddNewCard(data) {
 		api.addNewCard(data)
@@ -172,60 +155,6 @@ function App() {
 			});
 	}
 
-	// const tockenCheck = () => {
-	// 	const jwt = localStorage.getItem('jwt');
-  //   console.log(`jwt =  ${jwt}` );
-
-	// 	if (jwt) {
-	// 		auth.checkToken(jwt)
-	// 			.then(user => {
-  //         console.log(user);
-
-	// 				setEmail(user.data.email);
-
-	// 				handleLogin(user);
-
-	// 				navigate('/');
-	// 			})
-	// 			.catch((err) => {
-  //         console.err(`front> >>> APP.js >>> tockenCheck()`);
-	// 			});
-	// 	}
-	// }
-
-  // console.log(`loggedIn = ${loggedIn}; Если false, то будет return;`);
-  // if ( loggedIn){
-
-  //   api.getUserInfo()
-  //     .then(setCurrentUser)
-  //     .catch(err => console.error(err));
-
-  //   api.getCards()
-  //     .then(res => {
-  //       setCards(res);
-  //     })
-  //     .catch(err => console.error(err));
-
-  // }
-
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('jwt')) {
-  //     auth.checkToken(localStorage.getItem('jwt'))
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true)
-  //           setEmail(res.data.email);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(`front> >>> APP.js >>> useEffect`);
-  //         console.error(err);
-  //       });
-  //   }
-  // });
-
-
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     // console.log(`token =  ${token}`);
@@ -233,44 +162,22 @@ function App() {
     if (token) {
       auth.checkToken(token)
         .then(user => {
-          // console.log(`user =`);
-          // console.log(user);
-          // console.log(`user.data.email = ${user.data.email}`);
-          // api.setToken(token);
-
           setLoggedIn(true);
           handleLogin(user);
-          // setEmail(user.data.email);
 
           const token = localStorage.getItem('jwt');
           Promise.all([api.getUserInfo(), api.getCards()])
           .then(([info, cards]) => {
 
               if (token) {
-                // console.log(info);
-
                 setEmail(info.email);
                 console.log(`setCurrentUser ===> `);
                 setCurrentUser(user);
-
                 // handleUpdateUser(user);
-
                 if (cards.length ){
                   setCards(cards);
                 }
               }
-
-
-              // api.getUserInfo()
-              //   .then(setCurrentUser)
-              //   .catch(err => console.error(err));
-
-              // api.getCards()
-              //   .then(res => {
-              //     setCards(res);
-              //   })
-              //   .catch(err => console.error(err));
-
             })
             .catch((err) => console.log(`Ошибка promise.all: ${err}`));
 
@@ -284,81 +191,6 @@ function App() {
     }
   }, [loggedIn, navigate]);
 
-  // useEffect(() => {
-  //   console.log(`loggedIn ===> ${loggedIn};`);
-
-  //   if (loggedIn){
-  //     // api.getUserInfo()
-  //     //   .then(setCurrentUser)
-  //     //   .catch(err => console.error(err));
-
-  //     // api.getCards()
-  //     //   .then(res => {
-  //     //     console.log(res);
-  //     //     setCards(res);
-  //     //   })
-  //     //   .catch(err => console.error(err));
-
-  //     Promise.all([api.getUserInfo(), api.getCards()])
-  //       .then(([info, cards]) => {
-
-  //         setCurrentUser(info);
-
-  //         if (cards.length) {
-  //           setCards(cards);
-  //         }
-
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-
-  // }, [navigate]);
-
-
-/*
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      console.log(`token = ${token}`);
-
-
-      auth.checkToken(token)
-        .then(user => {
-          console.log(user);
-
-          api.setToken(token);
-
-          setEmail(user.data.email);
-          setLoggedIn(true);
-          handleLogin(user);
-
-          navigate('/');
-        })
-        .catch((err) => {
-          setLoggedIn(false);
-          //localStorage.removeItem('jwt'); console.log(`localStorage.removeItem('jwt')`);
-          console.error(err);
-        });
-
-      api.getUserInfo()
-        .then(setCurrentUser)
-        .catch(err => console.error(err));
-
-      api.getCards()
-        .then(res => {
-          setCards(res);
-        })
-        .catch(err => console.error(err));
-
-
-    } else {
-
-    }
-  }, [navigate, loggedIn]);
-
-*/
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
 			<div className="page">

@@ -22,15 +22,10 @@ function Login({ handleLogin, handleInfoTooltip }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
 		const { email, password } = formValue;
-    console.log(`email = ${email}`);
-    console.log(`password = ${password}`);
-
-
     auth.authorize({ email, password })
 			.then(data => {
-        console.log(`handleSubmit >>> data.token = ${data.token}`);
+
 				if (data.token) {
 					localStorage.setItem('jwt', data.token);
           // api.setToken(data.token);
@@ -42,9 +37,7 @@ function Login({ handleLogin, handleInfoTooltip }) {
 
 			})
 			.catch((err) => {
-        console.error('handleSubmit >>> ERROR');
-				console.error(err);
-
+				// console.error(err);
 				handleInfoTooltip('error');
 			});
 	}

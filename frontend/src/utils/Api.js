@@ -166,8 +166,7 @@ class Api {
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
-				console.error('Ошибка! Ошибка при Добавлении новых данных о пользователе');
-				console.error(err);
+        console.error('Ошибка! Ошибка при Добавлении новых данных о пользователе', err);
 			})
 	}
 
@@ -186,7 +185,6 @@ class Api {
 			body: JSON.stringify({
         avatar: data.avatar
       }),
-      // body: JSON.stringify({ avatar }),
 		})
 			.then(this._checkResponse)
 			.catch((err) => {
@@ -196,8 +194,8 @@ class Api {
 }
 
 const api = new Api({
-  // url: 'https://api.mmm.nomoredomainsrocks.ru',
-  url: 'http://localhost:3000'
+  url: 'https://api.mmm.nomoredomainsrocks.ru',
+  // url: 'http://localhost:3000'
 });
 
 export default api;

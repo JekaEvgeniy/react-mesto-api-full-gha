@@ -10,7 +10,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
 	useEffect(() => {
 		// хук isOpen реализует сброс значении input's при открытии popup
-    // console.log('currentUser >>> ', currentUser);
 
 		if (currentUser.name) {
 			// Без проверки можно получить: Cannot read properties of undefined (reading 'name')
