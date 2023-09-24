@@ -53,7 +53,7 @@ const removeCard = (req, res, next) => {
     .orFail(() => new NotFoundError('Карточка с указанным _id не найдена.'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        next(new ForbiddenError('Вы не можете удалить чужую карточку'));
+        throw new ForbiddenError('Вы не можете удалить чужую карточку');
       } else {
         return Card.deleteOne(card)
           .then(() => res.send(card));
