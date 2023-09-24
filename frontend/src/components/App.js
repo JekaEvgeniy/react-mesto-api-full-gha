@@ -156,6 +156,27 @@ function App() {
 	}
 
   useEffect(() => {
+    if (loggedIn){
+      const token = localStorage.getItem('jwt');
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([info, cards]) => {
+
+          if (token) {
+            setEmail(info.email);
+            // console.log(`setCurrentUser ===> `);
+            setCurrentUser(info);
+            // handleUpdateUser(user);
+            if (cards.length) {
+              setCards(cards);
+            }
+          }
+        })
+        .catch((err) => console.log(`Ошибка promise.all: ${err}`));
+    }
+
+  }, [loggedIn]);
+
+  useEffect(() => {
     const token = localStorage.getItem('jwt');
     // console.log(`token =  ${token}`);
 
@@ -165,31 +186,14 @@ function App() {
           setLoggedIn(true);
           handleLogin(user);
 
-          const token = localStorage.getItem('jwt');
-          Promise.all([api.getUserInfo(), api.getCards()])
-          .then(([info, cards]) => {
-
-              if (token) {
-                setEmail(info.email);
-                // console.log(`setCurrentUser ===> `);
-                setCurrentUser(user);
-                // handleUpdateUser(user);
-                if (cards.length ){
-                  setCards(cards);
-                }
-              }
-            })
-            .catch((err) => console.log(`Ошибка promise.all: ${err}`));
-
           navigate('/');
-
         })
         .catch((err) => {
           console.error(`front> >>> APP.js >>> useEffect`);
           console.error(err);
         });
     }
-  }, [loggedIn, navigate]);
+  }, [navigate]);
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
