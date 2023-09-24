@@ -1,6 +1,6 @@
 // import React from "react";
-// export const BASE_URL = 'https://api.mmm.nomoredomainsrocks.ru';
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://api.mmm.nomoredomainsrocks.ru';
+// export const BASE_URL = 'http://localhost:3000';
 console.log(`BASE_URL = ${BASE_URL}`);
 
 const checkResponse = (res) => {

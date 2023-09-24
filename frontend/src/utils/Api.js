@@ -193,8 +193,8 @@ class Api {
 
 console.log(`http://localhost:3000`);
 const api = new Api({
-  // url: 'https://api.mmm.nomoredomainsrocks.ru',
-  url: 'http://localhost:3000'
+  url: 'https://api.mmm.nomoredomainsrocks.ru',
+  // url: 'http://localhost:3000'
 });
 
 export default api;
