@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate'); // https://www.npmjs.com/package/celebrate
 
-const { codeErrors } = require('../vars/data');
 const userRoutes = require('./users');
 const cardRoutes = require('./cards');
 const { createUser, getCurrentUser, login } = require('../controllers/users');

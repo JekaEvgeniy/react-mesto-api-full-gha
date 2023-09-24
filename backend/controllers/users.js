@@ -87,7 +87,7 @@ const createUser = (req, res, next) => {
   // User.findOne({ email })
   //   .then((user) => {
   //     if (user) {
-  //       next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
+  //       next(new ConflictError('При регистрации указан email));
   //     }
   //   });
 
@@ -96,7 +96,7 @@ const createUser = (req, res, next) => {
       User.create({
         name, about, avatar, email, password: hash,
       })
-        .then((data) => {
+        .then(() => {
           // res.status(codeSuccess.created).send(data);
           res.status(codeSuccess.created).send({
             data: {
@@ -184,7 +184,7 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'my-secret-code', { expiresIn: '7d' });
       res.send({ token });
     })
-    .catch((err) => {
+    .catch(() => {
       next(new UnauthorizedError('Неправильный логин/пароль'));
     });
 };
