@@ -176,8 +176,8 @@ function App() {
             setEmail(info.email);
             // console.log(`setCurrentUser ===> `);
             setCurrentUser(info);
-            handleUpdateUser(info);
-            handleUpdateAvatar(info);
+            // handleUpdateUser(info);
+            // handleUpdateAvatar(info);
             if (cards.length) {
               setCards(cards);
             }
