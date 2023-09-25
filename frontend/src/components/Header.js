@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 import headerLogo from '../images/header/header-logo.svg';
 
-function Header({ ...props }) {
-	const navigate = useNavigate();
+function Header({ onLogout, ...props }) {
+	// const navigate = useNavigate();
 
-	function signOut() {
-		localStorage.removeItem('jwt');
-		navigate('/signin');
-	}
+	// function signOut() {
+	// 	localStorage.removeItem('jwt');
+	// 	navigate('/signin');
+	// }
 
 
 	return (
@@ -36,7 +36,7 @@ function Header({ ...props }) {
 				props.isPageIndex && (
 					<div className='header__actions'>
 						<p className="header__email">{props.email}</p>
-						<button onClick={signOut} className="header__button" type="button">Выйти</button>
+            <button onClick={onLogout} className="header__button" type="button">Выйти</button>
 					</div>
 				)
 			}
